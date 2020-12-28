@@ -1,48 +1,48 @@
 var roleBuilder = require('role.builder');
 var roleBuildera = require('role.buildera');
+var moveToTarget = require('moveToTarget');
 var claimNewRoom = {
 	run : function(spawnName , roomName){
-	    
 		if(!Game.rooms[roomName]){
 		  //  if(Game.time % 4000)return
 		    isCreepExist('see',roomName,spawnName)
 		}
 		if(Game.rooms[roomName]){
 		    if(Game.rooms[roomName].controller.level < 4 && Game.rooms[roomName].controller.owner.username == 'verp_T'){
-                if(controllerFindConstructionSites(roomName)){
-    			    isCreepExist('newbuilder',roomName,spawnName)
-    				isCreepExist('newbuildera',roomName,spawnName)
-    			
-    			}
-            }
+			if(controllerFindConstructionSites(roomName)){
+				isCreepExist('newbuilder',roomName,spawnName)
+				isCreepExist('newbuildera',roomName,spawnName)
+			}
+		    }
 		}
 		
 		
 		for(var name in Game.creeps) {
-            var creep = Game.creeps[name];
-            if(creep.memory.role == 'see'){
-                if(creep.room.name != roomName){
-                    creep.moveTo(Game.flags.Flag1)
-                    return;
+		    var creep = Game.creeps[name];
+		    if(creep.memory.role == 'see'){
+			if(creep.room.name != roomName){
+			    moveToTarget.run(creep)
+			}else{
+				var c = creep.room.controller
+				if(creep.signController(c,'it will be claimed by verp_T')== ERR_NOT_IN_RANGE) {
+						creep.moveTo(c);
+				}
+				if(roomMsg(roomName,creep)){
+					isCreepExist('newattack',roomName,spawnName)
+				}else{
+					if(Game.rooms[roomName] && Game.rooms[roomName].controller.level == 0){
+						isCreepExist('claim',roomName,spawnName)
+					}
+
+				}
                 }
-                var c = creep.room.controller
-                if(creep.signController(c,'it will be claimed by verp_T')== ERR_NOT_IN_RANGE) {
-            			creep.moveTo(c);
-                }
-                if(roomMsg(roomName,creep)){
-        		    isCreepExist('newattack',roomName,spawnName)
-        		}else{
-        		    if(Game.rooms[roomName] && Game.rooms[roomName].controller.level == 0){
-        		        isCreepExist('claim',roomName,spawnName)
-        		    }
-        			
-        		}
+                
             }
             if(creep.memory.role == 'newattack'){
             	newRoomFunctionAndCreep(roomName,creep)
             }
             if(creep.memory.role == 'claim'){
-            	claimNewRoom(roomName,creep)
+            	claimRoom(roomName,creep)
             }
             if(creep.memory.role == 'newbuilder'){
                 roleBuilder.run(creep);
@@ -102,7 +102,7 @@ function newRoomFunctionAndCreep(roomName,creep){
     // console.log(creep.name)
     
 	if(creep.room.name != roomName){
-        creep.moveTo(Game.flags.Flag1)
+        moveToTarget.run(creep)
         
         return;
     }
@@ -145,33 +145,19 @@ function newRoomFunctionAndCreep(roomName,creep){
 /*
  *占领相应的房子
  */
-function claimNewRoom(roomName,creep){
+function claimRoom(roomName,creep){
 	if(creep.room.name != roomName){
-        creep.moveTo(Game.flags.Flag1)
-        return;
-    }
-	var c = creep.room.controller
-    if(creep.claimController(c) == ERR_NOT_IN_RANGE || creep.signController(c,'逍遥半生酒中意，一剑碎影向征程')== ERR_NOT_IN_RANGE) {
-		creep.moveTo(c);
-		console.log('【'+roomName+'`controller had been claimed 】')
-    }
-}
-
-/*
- *移动到相应的房子
- */
-function moveToRoom(roomname,creep){
-    
-    if(creep.room.name != roomname){
-        creep.moveTo(Game.flags.Flag1)
-        return;
-    }
-    var c = creep.room.controller
-    if(creep.signController(c,'it will be claimed by verp_T')== ERR_NOT_IN_RANGE) {
+        moveToTarget.run(creep)
+    }else{
+		var c = creep.room.controller
+		if(creep.claimController(c) == ERR_NOT_IN_RANGE || creep.signController(c,'逍遥半生酒中意，一剑碎影向征程')== ERR_NOT_IN_RANGE) {
 			creep.moveTo(c);
-    }
-
+			console.log('【'+roomName+'`controller had been claimed 】')
+		}
+	}
+	
 }
+
 
 /*
  *查看前房间主人的建筑与等级的情况
