@@ -1,11 +1,10 @@
+var moveToTarget = require('moveToTarget');
 var roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-
-        
         if(creep.room.name != 'E46N43'){
-            creep.moveTo(Game.flags.Flag1)
+           moveToTarget.run(creep)
             return;
         }
          
