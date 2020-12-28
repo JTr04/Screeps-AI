@@ -3,7 +3,7 @@ var roleBuildera = {
     /** @param {Creep} creep **/
     run: function(creep) { 
         
-		if(creep.room.name != 'E46N43'){
+	if(creep.room.name != 'E46N43'){
             creep.moveTo(Game.flags.Flag1)
             return;
         }
