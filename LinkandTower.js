@@ -1,8 +1,6 @@
 var LinkandTower = {
     run :function(creep){
         
-        checkTowerStuta();
-        
         if(creep.memory.traing && creep.store[RESOURCE_ENERGY] == 0) {
             creep.memory.traing = false;
 	    }
@@ -24,7 +22,7 @@ var LinkandTower = {
 								   creep.moveTo(target);
 								   creep.say('tower');
 								}
-								if(target.store.getUsedCapacity(RESOURCE_ENERGY) == 1000){
+								if(target.store.getUsedCapacity(RESOURCE_ENERGY) == target.store.getCapacity(RESOURCE_ENERGY)){
 									Memory.needEnergyTower[i].towerList[j].towerStuta = false;
 								}
 							}
@@ -49,7 +47,7 @@ var LinkandTower = {
                 
         }else{
             var targets = Game.getObjectById(Memory.creeps[creep.name].con);
-                if(creep.room.controller.level > 4 && targets.store.getUsedCapacity(RESOURCE_ENERGY) > 1000){
+                if(Memory.creeps[creep.name].con != '' && targets && targets.store.getUsedCapacity(RESOURCE_ENERGY) > 1000){
     				if(creep.withdraw(targets, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
     					creep.moveTo(targets ,{visualizePathStyle: {stroke: '#ffaa00'}});
     					
@@ -72,63 +70,6 @@ var LinkandTower = {
 
 module.exports = LinkandTower;
 
-// ['5f9efa7c7dea8913c2ceb3ae','5fa51d4e0232ee132b9081dc','5fad7ddf75c5ec954679c03e','5fb618445c05c7873c508f24','5fcc90e159e7e15db3df2b4a','5fcc45e30569d6c66be132d0']
-
-
-Memory.needEnergyTower = [
-    {
-        roomName:'E59N31',
-        towerList:[
-            {
-                towerId:'5f9efa7c7dea8913c2ceb3ae',
-                towerStuta:true
-            },{
-                towerId:'5fa51d4e0232ee132b9081dc',
-                towerStuta:true
-            },{
-                towerId:'5fd2e503386773215b49aa72',
-                towerStuta:true
-            }   
-        ]
-    },{
-        roomName:'E59N39',
-        towerList:[
-            {
-                towerId:'5fad7ddf75c5ec954679c03e',
-                towerStuta:true
-            },{
-                towerId:'5fb618445c05c7873c508f24',
-                towerStuta:true
-            },{
-                towerId:'5fcc90e159e7e15db3df2b4a',
-                towerStuta:true
-            }    
-        ]
-    },{
-        roomName:'E51N41',
-        towerList:[
-            {
-                towerId:'5fcc45e30569d6c66be132d0',
-                towerStuta:true
-            },{
-                towerId:'5fd5a0de5c1325a84721b000',
-                towerStuta:true
-            }
-        ]
-    }
-]
-
-function checkTowerStuta(){
-    for(var i in Memory.needEnergyTower){
-        for(var j in Memory.needEnergyTower[i].towerList){
-            var target = Game.getObjectById(Memory.needEnergyTower[i].towerList[j].towerId)
-            if(target.store.getUsedCapacity(RESOURCE_ENERGY) < 550){
-                Memory.needEnergyTower[i].towerList[j].towerStuta = true;
-            }
-        }
-    }
-      
-}
 
 function checkAllStuta(towerList){
 	var stuta = false

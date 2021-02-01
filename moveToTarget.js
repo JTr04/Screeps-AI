@@ -11,9 +11,9 @@ var moveToTarget = {
 module.exports = moveToTarget;
 
 Memory.mainRoomOfAround = [
-	{targetRoom:'',targetRoomFlag:true},	
-	{targetRoom:'',targetRoomFlag:true}
-
+	{targetRoom:'E46N44',targetRoomFlag:true,x:47,y:38},	
+	{targetRoom:'E46N43',targetRoomFlag:true,x:26,y:48},
+    {targetRoom:'E47N43',targetRoomFlag:true,x:36,y:17}
 ]
 
 /*
@@ -21,18 +21,28 @@ Memory.mainRoomOfAround = [
 */
 function lookForRoom(creep,roomList){
 	var targetRoom ;
+	var x
+	var y
 	for(var i in roomList){
 		if(roomList[i].targetRoomFlag){
 			targetRoom = roomList[i].targetRoom
-			break;
+			x = roomList[i].x
+			y = roomList[i].y
+			if(creep.room.name != targetRoom){
+        		creep.moveTo(new RoomPosition( x, y, targetRoom))
+        		creep.say(targetRoom)
+        	}else{
+        		if(creep.pos.isEqualTo(x,y)){
+        			Memory.mainRoomOfAround[i].targetRoomFlag = false
+        		}else{
+        			creep.moveTo(x,y);
+        			creep.say(x+','+y);
+        		}
+        	}
 		}
+		
 	}
-	if(!Game.rooms[targetRoom]){
-		creep.moveTo(new RoomPosition( 22, 5, targetRoom))
-		creep.say(targetRoom)
-	}else{
-		Memory.mainRoomOfAround[i].targetRoomFlag = false
-	}
+	
 }
 
 /**
@@ -48,8 +58,9 @@ function restartPbTask(){
 			}
 			if(!status){
 				var mainRoomOfAround = [
-					{targetRoom:'',targetRoomFlag:true},	
-					{targetRoom:'',targetRoomFlag:true}
+					{targetRoom:'E46N44',targetRoomFlag:true,x:47,y:38},	
+                	{targetRoom:'E46N43',targetRoomFlag:true,x:26,y:48},
+                    {targetRoom:'E47N43',targetRoomFlag:true,x:36,y:17}
 				]
 				Memory.mainRoomOfAround[i].targetRoomFlag = mainRoomOfAround[i].targetRoomFlag
 			}

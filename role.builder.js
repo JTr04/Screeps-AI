@@ -3,8 +3,11 @@ var roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-        if(creep.room.name != 'E46N43'){
-           moveToTarget.run(creep)
+
+        
+        if(creep.room.name != 'E43N42'){
+            // moveToTarget.run(creep)
+            creep.moveTo(Game.flags.Flag5)
             return;
         }
          
@@ -30,10 +33,11 @@ var roleBuilder = {
                     const target = creep.room.find(FIND_STRUCTURES, {
                         filter: (structure) => {
         					return (
-        					       // structure.structureType == STRUCTURE_WALL ||
-        					       // structure.structureType == STRUCTURE_RAMPART ||
-        					        structure.structureType == STRUCTURE_ROAD)	&&
-        						structure.hits < structure.hitsMax;
+        					        structure.structureType == STRUCTURE_WALL ||
+        					        structure.structureType == STRUCTURE_RAMPART 
+        					       // structure.structureType == STRUCTURE_ROAD
+        					       )&&
+        						structure.hits < 100000;
         				}
                     });
                     target.sort((a,b) => a.hits-b.hits);
@@ -56,15 +60,15 @@ var roleBuilder = {
             }
 	    }
 	    else {
-	       // if(creep.room.controller) {
-        //         var c = Game.getObjectById('5bbcafb99099fc012e63b0f7');
-        //         if(creep.claimController(c) == ERR_NOT_IN_RANGE || creep.signController(creep.room.controller,'逍遥半生酒中意，一剑碎影向征程')== ERR_NOT_IN_RANGE) {
-        //             creep.moveTo(c);
-        //         }
-        //     }
+	        if(creep.room.controller) {
+                var c = Game.getObjectById('5bbcaf809099fc012e63aada');
+                if(creep.claimController(c) == ERR_NOT_IN_RANGE || creep.signController(creep.room.controller,'逍遥半生酒中意，一剑碎影向征程')!= ERR_NOT_IN_RANGE) {
+                    creep.moveTo(c);
+                }
+            }
 	        var ids = Memory.creeps[creep.name].workloc;
             // var sourcea = Game.getObjectById(ids);
-            var sourcea = Game.getObjectById('5bbcafb99099fc012e63b0f5');
+            var sourcea = Game.getObjectById('5bbcaf809099fc012e63aad9');
             if(creep.harvest(sourcea) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sourcea, {visualizePathStyle: {stroke: '#ffaa00'}});
             }

@@ -4,14 +4,19 @@
 *@param stuta true/false 是否预定
 */
 var roleOutSource = {
-	run : function(room,ids,stuta){
+	run : function(room,ids,stuta,outhelp){
 		for(var i in mainRoom){
 			for(var j in Memory.roomResource){
 				if(mainRoom[i] == Memory.roomResource[j].roomName){
 					var spawnList = Memory.roomResource[j].roomSpawn
 					var num = Memory.roomResource[j].spawnResourceIndex;
 					for(var s in spawnList){
-						isCreepExist('outHar',room,spawnList[s],num,ids)
+				// 		isCreepExist('outHar',room,spawnList[s],num,ids)
+				        if(outhelp){
+    				        generateCreep('outbuilder',room,spawnList[s],num,ids);
+    				        generateCreep('outbuildera',room,spawnList[s],num,ids);
+				            
+				        }
 						if (stuta){
 							isCreepExist('outRe',room,spawnList[s],num,ids)
 						}
@@ -28,6 +33,12 @@ var roleOutSource = {
             }
             if(creep.memory.role == 'outRe'){
                 reAction(creep)
+            }
+            if(creep.memory.role == 'outbuilder'){
+                builderAction(creep)
+            }
+            if(creep.memory.role == 'outbuildera'){
+                upAction(creep)
             }
             
 		}
@@ -57,10 +68,16 @@ function generateCreep(role,roomName,spawnName,num,ids){
 		Game.spawns[spawnName].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], 
 			name, {memory: {role: role, room: roomName,worksto:sto,workloc:ids}});
     }else if(role == 'outRe' && pbcreeps.length < 1){
-		Game.spawns[spawnName].spawnCreep([CALIM,MOVE,MOVE], 
+		Game.spawns[spawnName].spawnCreep([CLAIM,MOVE,MOVE], 
 			role, {memory: {role: role, room: roomName}});
+    }else if(role == 'outbuilder' && pbcreeps.length < 1){
+		Game.spawns[spawnName].spawnCreep([CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], 
+			role, {memory: {role: role, room: roomName,worksto:sto}});
+    }else if(role == 'outbuildera' && pbcreeps.length < 1){
+		Game.spawns[spawnName].spawnCreep([CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], 
+			role, {memory: {role: role, room: roomName,worksto:sto}});
     }else{
-		console.log('【没有role的类型】');
+		
     }
 }
 
@@ -114,18 +131,88 @@ function reAction(creep){
 	}
 }
 
-/**
-*移动优化
-*因为没有设置异常处理所以在给定目标时要注意观察有空间可以过去
-*@param {creep:Creep}相应的creep
-*@param {target:targetObject}目标对象
-*@return path
-*/
-function moveOp(creep,target) {
-	var path = creep.pos.findPathTo(target,{maxOps:200});
-	if( !path.length) {
-		path = creep.pos.findPathTo(target,
-			{maxOps: 1000, ignoreCreeps: true});
-	}
-	return path
+function builderAction(creep){
+     
+
+    if(creep.memory.building && creep.store[RESOURCE_ENERGY] == 0) {
+        creep.memory.building = false;
+        creep.say('🔄 harvest');
+    }
+    if(!creep.memory.building && creep.store.getFreeCapacity() == 0) {
+        creep.memory.building = true;
+        creep.say('🚧 build');
+    }
+
+    if(creep.memory.building) {
+        
+        if(creep.room.name != 'E51N39'){
+            creep.moveTo(Game.flags.Flag10);
+            return;
+        }
+        var target = Game.getObjectById('5feed62ba3fb08961c3ecc6f')
+        if(target.store.getFreeCapacity(RESOURCE_ENERGY) > 0){
+            if(creep.transfer(target,RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                creep.moveTo(target)
+            }
+        }
+        
+        // if(creep.pos.isEqualTo(41,14)){
+        //     creep.drop(RESOURCE_ENERGY);
+        // }else{
+        //     creep.moveTo(41,15);
+        // }
+                
+        
+    }else {
+        
+        var ids = Memory.creeps[creep.name].worksto;
+		var sto = Game.getObjectById(ids);
+		if(sto.store.getFreeCapacity(RESOURCE_ENERGY)>0){
+			if(creep.withdraw(sto, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+				creep.moveTo(sto, {visualizePathStyle: {stroke: '#ffffff'}});
+			} 
+		}
+    }
+}
+
+function upAction(creep){
+    
+    
+     if(creep.memory.building && creep.store[RESOURCE_ENERGY] == 0) {
+        creep.memory.building = false;
+        creep.say('🔄 harvest');
+    }
+    if(!creep.memory.building && creep.store.getFreeCapacity() == 0) {
+        creep.memory.building = true;
+        creep.say('🚧 build');
+    }
+
+    if(creep.memory.building) {
+        
+        if(creep.room.name != 'E51N39'){
+            creep.moveTo(Game.flags.Flag10);
+            return;
+        }
+        var target = Game.getObjectById('5feed62ba3fb08961c3ecc6f')
+        if(target.store.getFreeCapacity(RESOURCE_ENERGY) > 0){
+            if(creep.transfer(target,RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                creep.moveTo(target)
+            }
+        }
+        // if(creep.pos.isEqualTo(41,15)){
+        //     creep.drop(RESOURCE_ENERGY);
+        // }else{
+        //     creep.moveTo(41,15);
+        // }
+    }else {
+        var ids = Memory.creeps[creep.name].worksto;
+		var sto = Game.getObjectById(ids);
+		if(sto.store.getFreeCapacity(RESOURCE_ENERGY)>0){
+			if(creep.withdraw(sto, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+				creep.moveTo(sto, {visualizePathStyle: {stroke: '#ffffff'}});
+			} 
+		}
+  
+        
+    }
 }

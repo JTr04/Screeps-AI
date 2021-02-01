@@ -21,7 +21,7 @@ var roleNewHarvester = {
         
         if(creep.memory.having){
             var targets = Game.getObjectById(Memory.creeps[creep.name].con);
-            if(targets.store.getFreeCapacity(RESOURCE_ENERGY) > 0){
+            if(targets && targets.store.getFreeCapacity(RESOURCE_ENERGY) > 0){
                 creep.transfer(targets,RESOURCE_ENERGY)
             }else{
                 if(creep.room.controller.level >= 5 && Memory.creeps[creep.name].worklink !=''){

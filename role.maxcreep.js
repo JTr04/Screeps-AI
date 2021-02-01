@@ -55,7 +55,7 @@ function action(creep){
             creep.moveTo(target)
         }
     }else{
-        if(creep.room.name != 'E50N39'){
+        if(creep.room.name != 'E50N40'){
             creep.moveTo(Game.flags.Flag3)
             return;
         }

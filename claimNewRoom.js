@@ -3,38 +3,40 @@ var roleBuildera = require('role.buildera');
 var moveToTarget = require('moveToTarget');
 var claimNewRoom = {
 	run : function(spawnName , roomName){
+	    
 		if(!Game.rooms[roomName]){
 		  //  if(Game.time % 4000)return
 		    isCreepExist('see',roomName,spawnName)
 		}
 		if(Game.rooms[roomName]){
 		    if(Game.rooms[roomName].controller.level < 4 && Game.rooms[roomName].controller.owner.username == 'verp_T'){
-			if(controllerFindConstructionSites(roomName)){
-				isCreepExist('newbuilder',roomName,spawnName)
-				isCreepExist('newbuildera',roomName,spawnName)
-			}
-		    }
+                if(controllerFindConstructionSites(roomName)){
+    			 //   isCreepExist('newbuilder',roomName,spawnName)
+    				// isCreepExist('newbuildera',roomName,spawnName)
+    			
+    			}
+            }
 		}
 		
 		
 		for(var name in Game.creeps) {
-		    var creep = Game.creeps[name];
-		    if(creep.memory.role == 'see'){
-			if(creep.room.name != roomName){
-			    moveToTarget.run(creep)
-			}else{
-				var c = creep.room.controller
-				if(creep.signController(c,'it will be claimed by verp_T')== ERR_NOT_IN_RANGE) {
-						creep.moveTo(c);
-				}
-				if(roomMsg(roomName,creep)){
-					isCreepExist('newattack',roomName,spawnName)
-				}else{
-					if(Game.rooms[roomName] && Game.rooms[roomName].controller.level == 0){
-						isCreepExist('claim',roomName,spawnName)
+            var creep = Game.creeps[name];
+            if(creep.memory.role == 'see'){
+                if(creep.room.name != roomName){
+                    moveToTarget.run(creep)
+                }else{
+					var c = creep.room.controller
+					if(creep.signController(c,'it will be claimed by verp_T')== ERR_NOT_IN_RANGE) {
+							creep.moveTo(c);
 					}
-
-				}
+					if(roomMsg(roomName,creep)){
+						isCreepExist('newattack',roomName,spawnName)
+					}else{
+						if(Game.rooms[roomName] && Game.rooms[roomName].controller.level == 0){
+							isCreepExist('claim',roomName,spawnName)
+						}
+						
+					}
                 }
                 
             }
@@ -191,7 +193,6 @@ function controllerFindConstructionSites(roomName){
 	}
 	return b
 }
-
 /*
 *占领房间后修建筑
 */

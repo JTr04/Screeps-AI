@@ -13,7 +13,7 @@ var maxCreep = require('role.maxcreep');
 
 var Mhar = require('Mhar');
 var remote = require('Power');
-var lookForSource = require('lookForSource');
+// var lookForSource = require('lookForSource');
 var claimNewRoom = require('claimNewRoom');
 var labWorkAction = require('labWorkAction');
 var roleOutSource = require('roleOutSource');
@@ -24,6 +24,9 @@ var roleTower = require('role.tower');
 var newSpawn = require('newSpawm');
 var factory = require('factory');
 var marketAction = require('market');
+var terminalWorkAction = require('terminalWorkAction');
+var defensive = require('defensive');
+var ObserverAction = require('ObserverAction');
 
 var memoryFunction = require('memory');
 
@@ -31,7 +34,7 @@ require('console')
  
 module.exports.loop = function () {
     
-    //清除死掉的creep内存
+    
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
             delete Memory.creeps[name];
@@ -41,24 +44,24 @@ module.exports.loop = function () {
     
     // remote.run();
     // if(Game.rooms.length !=3){
-        // claimNewRoom.run('Spawn3','E46N43');
+        // claimNewRoom.run('Spawn3','E43N42');
     // }
     // lookForSource.run();
-    //房间资源缓存（手动）
     memoryFunction.run();
     
+    defensive.run();
     
-    //日常生产
     var num;
     var spawnList ;
     var creepList ;
-    var roomList = ['E59N31','E59N39','E51N41','E46N43'];
+    var roomList = ['E59N31','E59N39','E51N41','E46N43','E49N38','E43N42'];
     var roomCreepsType ;
     for (var r in roomList){
     	for(var i in Memory.roomResource){
     		if(Memory.roomResource[i].roomName == roomList[r]){
     			spawnList = Memory.roomResource[i].roomSpawn;
     			for (var s in spawnList){
+    			    if(!spawnList[s])return
     				num = Memory.roomResource[i].spawnResourceIndex;
     				roomCreepsType = Game.spawns[spawnList[s]].room.controller.level;
     				creepList = Memory.creepsList[roomCreepsType];
@@ -77,26 +80,21 @@ module.exports.loop = function () {
     }
     // console.log(Memory.memorySource[1].link1)
     
-    //房间元素采集
     Mhar.run();
-    
-    //lab元素资源填充
     //labWorkAction.run();
     
-    //Deposit过道资源采集
-    maxCreep.run(false)
+    // maxCreep.run(false)
     
+    // roleOutSource.run('E51N39','5bbcb00c9099fc012e63b84f',false,false)
     
+    // factory.run()
     
-    // roleOutSource.run('E51N39','5bbcb00c9099fc012e63b84f',false)
-    
-    //工厂工作
-    factory.run()
-    
-    //市场工作
     marketAction.run();
+    
+    // terminalWorkAction.run();
+    
+    // ObserverAction.run();
 
-    //creep各司其职
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
@@ -135,12 +133,15 @@ module.exports.loop = function () {
             // powerBank.run(creep);
         }
     }
-  
-  //tower的工作
+
+// 	var towerList = _.filter(Game.structures, s =>s.structureType == STRUCTURE_TOWER);
 	for(var t in Memory.towerList){
 	    var tower = Game.getObjectById(Memory.towerList[t]);
 	    roleTower.run(tower);
 	}
+// 	for(var tower of towerList){
+// 		roleTower.run(tower);
+// 	}
 
 
 

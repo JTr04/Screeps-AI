@@ -36,9 +36,11 @@ var labWorkAction = {
 		for(var name in Game.creeps) {
             var creep = Game.creeps[name];
             if(creep.memory.role == 'labCreep'){
+                creepDelete(creep)
                 addMineral(creep)
             }
             if(creep.memory.role == 'inlabCreep'){
+                creepDelete(creep)
                 transferMineral(creep)
             }
             
@@ -55,6 +57,8 @@ Memory.labTask = [
 Memory.inLabTask = [
 ]
 
+var workRoom = ['E59N31']
+
 /*
  *筛选相应的creep
  */
@@ -70,14 +74,15 @@ function isCreepExist(role,roomName,spawnName,num){
  */
 function generateCreep(role,roomName,spawnName,num){
 	var ter = Memory.memorySource[num].terminalId;
+	var sto = Memory.memorySource[num].stoId;
 
 	var pbcreeps = _.filter(Game.creeps, (creep) => creep.memory.role == role && creep.memory.roomSign == roomName)
 	if(role == 'labCreep' && pbcreeps.length < 1){
-		Game.spawns[spawnName].spawnCreep([MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,CARRY,CARRY,CARRY,CARRY], 
-			role, {memory: {role: role, roomSign: roomName,workter:ter}});
+		Game.spawns[spawnName].spawnCreep([MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY], 
+			role, {memory: {role: role, roomSign: roomName,workter:ter,worksto:sto}});
     }else if(role == 'inlabCreep' && pbcreeps.length < 1){
-		Game.spawns[spawnName].spawnCreep([MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,CARRY,CARRY,CARRY,CARRY], 
-			role, {memory: {role: role, roomSign: roomName,workter:ter}});
+		Game.spawns[spawnName].spawnCreep([MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY], 
+			role, {memory: {role: role, roomSign: roomName,workter:ter,worksto:sto}});
     }else{
 		console.log('【没有role的类型】');
     }
@@ -89,8 +94,13 @@ function generateCreep(role,roomName,spawnName,num){
 */
 function checkLabResourceOfMineraltype(){
 	var Task = {}
+	var LABTask
 	for(var l in Memory.roomResource){
-		var LABTask = Memory.roomResource[l].labId
+	    for(var r in workRoom){
+	        if( Memory.roomResource[l].roomName == workRoom[i]){
+	            LABTask = Memory.roomResource[l].labId
+	        }
+	    }
 		for(var i in LABTask){
 		    var labT = LABTask[i].type
 		    if(labT == 'out'){
@@ -104,7 +114,8 @@ function checkLabResourceOfMineraltype(){
         				Memory.labTask.push(Task);
     			    }
     			}
-		    }else{
+		    }
+		    if(labT == 'maxin' || labT == 'minin'){
 		        var Wlab = Game.getObjectById(LABTask[i].id)
 		        var minType = Wlab.mineralType
     			if(Wlab.store.getUsedCapacity(minType) == 3000){
@@ -172,17 +183,21 @@ function transferMineral(creep){
 		if(creep.room.name == LABTask[i].roomName){
 			needMineralLab = Game.getObjectById(LABTask[i].labId)
 			minType = LABTask[i].minType
-			if(needMineralLab.store.getUsedCapacity(minType) > 1000){
+			if(needMineralLab.store.getUsedCapacity(minType) > 0){
 				if(creep.store[minType] == 0){
 					if(creep.withdraw(needMineralLab, minType) == ERR_NOT_IN_RANGE){
 						creep.moveTo(needMineralLab)
 					}
 				}else{
 				    var ter = Game.getObjectById(Memory.creeps[creep.name].workter)
-				    if(creep.transfer(ter, minType) == ERR_NOT_IN_RANGE){
-						creep.moveTo(ter)
+				    var sto = Game.getObjectById(Memory.creeps[creep.name].worksto)
+				    var target = ter
+				    if(ter.store.getUsedCapacity(minType) >= 30000){
+				       target = sto
+				    }
+			        if(creep.transfer(target, minType) == ERR_NOT_IN_RANGE){
+						creep.moveTo(target)
 					}
-					
 				}	
 			}else{
 				deleteTask(i)
@@ -199,19 +214,71 @@ function deleteTask(num){
 }
 
 function inLabRun(){
+    var LABTask
+    var min1
+    var min2
+    var num
     for(var l in Memory.roomResource){
-		var LABTask = Memory.roomResource[l].labId
+        for(var r in workRoom){
+	        if(Memory.roomResource[l].roomName == workRoom[i]){
+	            LABTask = Memory.roomResource[l].labId
+	            num = Memory.roomResource[l].spawnResourceIndex
+	            for(var s in roomMinSource){
+	                if( Memory.roomResource[l].roomName == roomMinSource[i].mainroom){
+                        min1 = roomMinSource[i].min1
+                        min2 = roomMinSource[i].min2
+	                }
+	            }
+	            
+	        }
+	    }
 		for(var i in LABTask){
 		    var labT = LABTask[i].type
-            if(labT == 'in'){
-                var inLab = Game.getObjectById(LABTask[i].id)
-                var out1 = Game.getObjectById(LABTask[i].out1)
-                var out2 = Game.getObjectById(LABTask[i].out2)
-                // if(out1.store.getUsedCapacity() > 0 && out2.store.getUsedCapacity() > 0){
+			var inLab 
+			var out1
+			var out2
+			var out3
+            if(labT == 'in' || labT == 'minin'){
+                inLab = Game.getObjectById(LABTask[i].id)
+                out1 = Game.getObjectById(LABTask[i].out1)
+                out2 = Game.getObjectById(LABTask[i].out2)
+                if(inLab.mineralType == undefined || inLab.store.getUsedCapacity(inLab.mineralType) !=3000){
                     inLab.runReaction(out1,out2)
-                // }
+                }
+            }
+            //maxin
+            if(labT == 'maxin'){
+                var sto = Game.getObjectById(Memory.memorySource[num].stoId)
+                inLab = Game.getObjectById(LABTask[i].id)
+                out1 = Game.getObjectById(LABTask[i].out1)
+                out2 = Game.getObjectById(LABTask[i].out2)
+                out3 = Game.getObjectById(LABTask[i].out3)
+                if(sto.store.getUsedCapacity(min1) < 30000){
+                    inLab.runReaction(out1,out2)
+                }else{
+                    if(sto.store.getUsedCapacity(min2) < 30000){
+                        inLab.runReaction(out1.out3)
+                    }
+                }
             }
         }
     }
         
 }
+
+function creepDelete(creep){
+	var t = creep.ticksToLive
+	var num = creep.store.getCapacity()
+	if(creep.store.getFreeCapacity() == num && t < 80){
+		creep.suicide()
+	}
+}
+
+
+var roomMinSource = [
+	{
+		mainroom:'E59N31',
+		min1:'',
+		min2:''
+	}
+]

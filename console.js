@@ -67,7 +67,7 @@ global.msg = function (roomName) {
 
 global.go = function (roomName){
     var uir =  "https://screeps.com/a/#!/room/shard3/"+roomName
-    var mainRoom = ['E59N31','E59N39','E51N41','E46N43']
+    var mainRoom = ['E59N31','E59N39','E51N41','E46N43','E49N38','E43N42']
     if(roomName == null){
        for(var i in mainRoom){
             uir = "https://screeps.com/a/#!/room/shard3/"+mainRoom[i]
