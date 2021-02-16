@@ -29,13 +29,13 @@ var roleS2t = {
                                     creep.moveTo(fac);
                                 } 
                             }
-                            // else{
-                            //     var roomName = creep.room.name
-                            //     Game.rooms[roomName].terminal.send(RESOURCE_ENERGY, 20000, 'E51N41');
-                            //     console.log('【'+roomName+'向E51N41发送 20000 energy】');
-                            //     // Game.rooms['E59N31'].terminal.send(RESOURCE_ENERGY, 20000, 'E59N39');
-                            //     // console.log('【E59N31 向E51N41发送 20000 energy】');
-                            // }
+                            else{
+                                var roomName = creep.room.name
+                                Game.rooms[roomName].terminal.send(RESOURCE_ENERGY, 20000, 'E51N41');
+                                console.log('【'+roomName+'向E51N41发送 20000 energy】');
+                                // Game.rooms['E59N31'].terminal.send(RESOURCE_ENERGY, 20000, 'E59N39');
+                                // console.log('【E59N31 向E51N41发送 20000 energy】');
+                            }
                             
                         }
                     }

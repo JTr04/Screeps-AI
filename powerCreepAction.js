@@ -25,7 +25,7 @@ function checkRoomPower(){
 				if(!pc){
 					//在此之前请手动添加pc实例
 					//PowerCreep.create('PC1', POWER_CLASS.OPERATOR);
-					createPC(pcname,PS,num)	
+					createPC(pcname,PS)	
 				}else{
 					//续命
 					if(pc.ticksToLive < 2500){
@@ -33,17 +33,20 @@ function checkRoomPower(){
 							pc.moveTo(PS)
 						}
 					}else{
-						//干活 先判断房间controller是否开启power
+				// 		干活 先判断房间controller是否开启power
 						if(!Game.rooms[pcRoomMsg[i].PCRoom].controller.isPowerEnabled){
 							if(pc.enableRoom(pc.room.controller) == ERR_NOT_IN_RANGE){
 								pc.moveTo(pc.room.controller)
 							}
 						}else{
 							//007
-							creep.usePower(PWR_GENERATE_OPS)
-							var sto = pc.room.stroage
-							if(sto.store.getUsedCapacity(RESOURCE_OPS) < 20000){
-								transferOps(pc)
+							var ter = pc.room.terminal
+							if(ter.store.getUsedCapacity('ops') < 20000){
+							    pc.usePower(PWR_GENERATE_OPS)
+								if(pc.store[RESOURCE_OPS] >= 100 ){
+                        			pc.moveTo(ter)
+                        			pc.transfer(ter,RESOURCE_OPS)
+                                }
 							}else{
 								opExt(pc)
 								opSto(pc)
@@ -65,18 +68,19 @@ function createPC(pcname,PS){
 function transferOps(creep){
 
     var terminal = creep.room.terminal;
-	var storage = creep.room.storage;
+// 	var storage = creep.room.storage;
     
     if(creep.store[RESOURCE_OPS] >= 100 ){
-		if(terminal.store.getUsedCapacity(RESOURCE_OPS) <= 1000){
+		if(terminal.store.getUsedCapacity(RESOURCE_OPS) <= 20000){
 			creep.moveTo(terminal)
 			creep.transfer(terminal,RESOURCE_OPS)
-		}else{
-			if(stroage.store.getUsedCapacity(RESOURCE_OPS) <= 10000){
-				creep.moveTo(storage)
-				creep.transfer(storage,RESOURCE_OPS)
-			}
 		}
+// 		else{
+// 			if(stroage.store.getUsedCapacity(RESOURCE_OPS) <= 10000){
+// 				creep.moveTo(storage)
+// 				creep.transfer(storage,RESOURCE_OPS)
+// 			}
+// 		}
         
     }
 

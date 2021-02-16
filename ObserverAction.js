@@ -308,8 +308,8 @@ function pbcarryCreepAction(creep){
 		var flagpos = Game.flags.flagName
 		var num = Memory.creeps[creep.name].roomNum + 1
 		var spawnName = 'Spawn'+num+'_3'
-		if(creep.pos.isEqualTo(flagpos)) {
-			Game.spawns['spawnName'].recycleCreep(creep)
+		if(creep.pos.isEqualTo(flagpos.pos)) {
+			Game.spawns[spawnName].recycleCreep(creep)
 		}
 	}
 }

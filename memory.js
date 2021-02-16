@@ -60,7 +60,7 @@ var memoryFunction = {
                             	}
                             	,{
                             	    roomName : 'E51N41',
-                            	    roomSpawn : ['Spawn3','Spawn3_2'],
+                            	    roomSpawn : ['Spawn3','Spawn3_2','Spawn3_3'],
                             	    spawnResourceIndex : 2,
                             	    towerList : ['5fcc45e30569d6c66be132d0','5fd5a0de5c1325a84721b000','5ff4a18738ed907fbe8e5e3a'],
                             	    mineralName:RESOURCE_KEANIUM
@@ -72,15 +72,15 @@ var memoryFunction = {
                             	    mineralName:RESOURCE_CATALYST
                             	},{
                             	   roomName : 'E49N38',
-                            	    roomSpawn : ['Spawn5'],
+                            	    roomSpawn : ['Spawn5','Spawn5_2'],
                             	    spawnResourceIndex : 4,
-                            	    towerList : ['6003903fc1ec6c46b62bd431','600fa47ec609bd587be24f73'],
+                            	    towerList : ['6003903fc1ec6c46b62bd431','600fa47ec609bd587be24f73','602a91b6d2b0866af61022ed'],
                             	    mineralName:RESOURCE_UTRIUM
                             	},{
                             	   roomName:'E43N42',
                             	    roomSpawn:['Spawn6'],
                             	    spawnResourceIndex : 5,
-                            	    towerList : ['60129200f67fb479db7e80aa'],
+                            	    towerList : ['60129200f67fb479db7e80aa','601ca1fc9d7c675adc83930b'],
                             	    mineralName:RESOURCE_HYDROGEN
                             	}
                               ]
@@ -119,7 +119,7 @@ var memoryFunction = {
                                 factoryId:'5fd1f97a4fd45e825b4cf23f',
                                 PSid:'600b639b3d37c247b70dda13',
                                 OBid:'600b22c194e5eb0b3a58b57d',
-                                NUKid:''
+                                NUKid:'600be18f12439dc69f66bec3'
                                },
                                {
                                 harX1:45,
@@ -149,16 +149,16 @@ var memoryFunction = {
                                 harY1:44,
                                 sourceIdUp:'5bbcb00c9099fc012e63b849',
                                 sourceIdDown:'5bbcb00c9099fc012e63b84b',
-                                stoId:'5fd06df40c0e64ddba02702d',
+                                stoId:'602a5ec837ff39d41b4e4dc7',
                                 link1:'5fd4f472953ea17cfca20b48',
-                                link2:'5fd4c7957b51610f11bbcb64',
+                                link2:'601f2f3e1eee187977b37d4a',
                                 link3:'5fe04c67d37a54bfbe09adcb',
-                                link4:'',
+                                link4:'5fd4c7957b51610f11bbcb64',
                                 mineralId:'5bbcb6b8d867df5e54207b0a',
-                                terminalId:'5fe232c0f89ce37ac968376d',
+                                terminalId:'602800c236d8b33dc944e2fa',
                                 containerS1:'5fcf471bfe9dc021a88d7ed7',
                                 containerS2:'5fcf7879d958776f8d9a8d49',
-                                factoryId:'',
+                                factoryId:'601f2551bdcae00a18b333a1',
                                 PSid:'',
                                 OBid:'',
                                 NUKid:''
@@ -190,10 +190,10 @@ var memoryFunction = {
                                 harY1:12,
                                 sourceIdUp:'5bbcafef9099fc012e63b653',
                                 sourceIdDown:'5bbcafef9099fc012e63b652',
-                                stoId:'601022517cd0d2970265f0f4',
+                                stoId:'60230cc71ce346575f364b35',
                                 link1:'600fddb9dcd72568cc926af3',
                                 link2:'60106fd3de8e721dd05c4c49',
-                                link3:'',
+                                link3:'601ddb3df7632dc794856f0a',
                                 link4:'',
                                 mineralId:'5bbcb6acd867df5e54207aa0',
                                 terminalId:'',
@@ -211,15 +211,15 @@ var memoryFunction = {
                                 harY1:5,
                                 sourceIdUp:'5bbcaf809099fc012e63aad9',
                                 sourceIdDown:'5bbcaf809099fc012e63aad8',
-                                stoId:'',
-                                link1:'',
-                                link2:'',
-                                link3:'',
+                                stoId:'6018515cf4e0b3807d5b18f4',
+                                link1:'601c7a0f4c054a2fe3d18f34',
+                                link2:'601c8f7226747965c8bb60e3',
+                                link3:'6026497526d3d84307bdf1d1',
                                 link4:'',
                                 mineralId:'5bbcb675d867df5e54207881',
-                                terminalId:'',
-                                containerS1:'',
-                                containerS2:'',
+                                terminalId:'6026411f2f7b063af966e111',
+                                containerS1:'60172d8f4139c8636f6bb953',
+                                containerS2:'60174b9208b46b1a3a6c1e2d',
                                 factoryId:'',
                                 PSid:'',
                                 OBid:'',

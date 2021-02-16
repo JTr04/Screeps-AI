@@ -9,7 +9,11 @@ var roleNewHarvester= require('role.newharvester');
 var roleS2t = require('role.s2t');
 var roleAttacker = require('role.attack');
 
+var tt = require('tt');
+
 var maxCreep = require('role.maxcreep');
+
+var powerCreepAction = require('powerCreepAction');
 
 var Mhar = require('Mhar');
 var remote = require('Power');
@@ -51,6 +55,8 @@ module.exports.loop = function () {
     
     defensive.run();
     
+    powerCreepAction.run();
+    
     var num;
     var spawnList ;
     var creepList ;
@@ -89,7 +95,7 @@ module.exports.loop = function () {
     
     // factory.run()
     
-    marketAction.run();
+    // marketAction.run();
     
     // terminalWorkAction.run();
     
@@ -129,8 +135,8 @@ module.exports.loop = function () {
         if(creep.memory.role == 'attack'){
             roleAttacker.run(creep);
         }
-        if(creep.memory.role == 'power'){
-            // powerBank.run(creep);
+        if(creep.memory.role == 'tt'){
+            tt.run(creep);
         }
     }
 

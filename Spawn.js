@@ -102,7 +102,7 @@ var SpawnFunction = {
                     if(creepTarget.length < key){
                         console.log(spawnName+' Spawning new '+creepList[roles] +' :'+newName);
                         Game.spawns[spawnName].spawnCreep( Tbody,newName,
-                        { memory: { role: creepList[roles] ,spawnSign : spawnName,roomSign:roomSign,workloc : s , con : cS1, worklink:link3,worksto:sto} } );
+                        { memory: { role: creepList[roles] ,spawnSign : spawnName,roomSign:roomSign,workloc : s , con : cS1, worklink:link3,worksto:sto,workter : ter} } );
                     }
                 }else if(creepList[roles] == 's2t'){
                     if(creepTarget.length <1){

@@ -2,7 +2,7 @@ var roleTower = {
     
     /** @param {Creep} creep **/
     run: function(tower) { 
-                
+        // var start = Game.cpu.getUsed()       
         checkTowerStuta();
         
         if(tower){
@@ -18,8 +18,15 @@ var roleTower = {
 			        var towerList = Memory.roomResource[r].towerList
 			        for(var t in towerList){
 			            var allTower = Game.getObjectById(towerList[t])
-			            if(allTower && closestHostile && cheackEnemyBody(closestHostile)) {
-        			        allTower.attack(closestHostile);
+			            if(allTower && closestHostile) {
+			                if(checkEnemyHealBody(closestHostile)){
+			                    allTower.attack(closestHostile);
+			                }else{
+			                    if(cheackEnemyBody(closestHostile)){
+			                        allTower.attack(closestHostile);
+			                    }
+			                }
+        			        
             			}else{
             			    var wallRepairStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
             				filter: (structure) => {
@@ -48,7 +55,8 @@ var roleTower = {
 			}
 			
 		}
-
+        // var end = Game.cpu.getUsed()
+        // console.log(end-start)
     }
 };
 
@@ -120,6 +128,9 @@ Memory.needEnergyTower = [
             },{
                 towerId:'600fa47ec609bd587be24f73',
                 towerStuta:true
+            },{
+                towerId:'602a91b6d2b0866af61022ed',
+                towerStuta:true
             }
         ] 
     },{
@@ -127,6 +138,9 @@ Memory.needEnergyTower = [
         towerList:[
             {
                 towerId:'60129200f67fb479db7e80aa',
+                towerStuta:true
+            },{
+                towerId:'601ca1fc9d7c675adc83930b',
                 towerStuta:true
             }
         ] 
@@ -154,6 +168,19 @@ function cheackEnemyBody(target){
 		stuta = false
 	}else{
 		if(attack != 0 || ranged != 0 || heal != 0 || work != 0){
+			stuta = true
+		}
+	}
+    
+    return stuta
+}
+function checkEnemyHealBody(target){
+    var stuta = false
+    var heal =  target.getActiveBodyparts(HEAL)
+	if(target.pos.x == 0 || target.pos.y == 0 || target.pos.x == 49 ||target.pos.y == 49){
+		stuta = false
+	}else{
+		if(heal != 0){
 			stuta = true
 		}
 	}

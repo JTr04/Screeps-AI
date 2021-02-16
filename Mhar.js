@@ -29,7 +29,7 @@ module.exports = Mhar;
 
 // var mainRoom = ['E59N31','E59N39']
 
-var mainRoom = ['E46N43']
+var mainRoom = []
 
 /*
  *筛选相应的creep

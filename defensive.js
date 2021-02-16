@@ -13,6 +13,7 @@ var defensive = {
 			if(roomLevel == 8){
 				var spawnList = Memory.roomResource[j].roomSpawn
 				var num = Memory.roomResource[j].spawnResourceIndex;
+				var PS = Game.getObjectById(Memory.memorySource[num].PSid)
 				for(var s in spawnList){
 					if(roomControllerFindConstructureSite(spawnList[s])){
 						isCreepExist('maxbuilder',Memory.roomResource[j].roomName,spawnList[s],num,1)
@@ -20,9 +21,13 @@ var defensive = {
 					if(Game.time % 5000 == 0 || Game.rooms[Memory.roomResource[j].roomName].controller.ticksToDowngrade <= 180000){
 					    isCreepExist('upgradera',Memory.roomResource[j].roomName,spawnList[s],num,1)
 					}
-					
+					if(Game.time % 100 == 0 && checkPowerMsg(num)){
+					    isCreepExist('trpower',Memory.roomResource[j].roomName,spawnList[s],num,1)
+					}
 				}
-					
+				if(PS && PS.store.getUsedCapacity(RESOURCE_POWER) > 0){
+				    PS.processPower()
+				}
 			}
 			
 		}
@@ -39,7 +44,9 @@ var defensive = {
             if(creep.memory.role == 'safeHeal'){
                 healAction(creep)
             }
-            
+            if(creep.memory.role == 'trpower'){
+                psCreepAction(creep)
+            }
 		}
 	}
 }
@@ -72,8 +79,9 @@ function generateCreep(role,roomName,spawnName,num,id){
 	var sto = Memory.memorySource[num].stoId;
     var ter = Memory.memorySource[num].terminalId;
     var sone = Memory.memorySource[num].sourceIdDown;
+    var ps = Memory.memorySource[num].PSid;
     
-	var name = role+'_'+id
+	var name = role+'_'+id+roomName
 	var pbcreeps = _.filter(Game.creeps, (creep) => creep.memory.role == role && creep.memory.roomSign == roomName)
 	if(role == 'maxbuilder' && pbcreeps.length < 1){
 		Game.spawns[spawnName].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], 
@@ -87,6 +95,9 @@ function generateCreep(role,roomName,spawnName,num,id){
     }else if(role == 'upgradera' && pbcreeps.length < 1){
         Game.spawns[spawnName].spawnCreep( [WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE],name,
         { memory: { role: role ,spawnSign : spawnName,roomSign:roomName,workloc : sone,worksto : sto, workter : ter,worklink:link4,ids:id} } );
+    }else if(role == 'trpower' && pbcreeps.length < 1){
+        Game.spawns[spawnName].spawnCreep( [CARRY,CARRY,MOVE,MOVE,MOVE,MOVE],name,
+        { memory: { role: role ,spawnSign : spawnName,roomSign:roomName, workter : ter,workps:ps,ids:id} } );
     }else{
 		console.log('【没有role的类型】');
     }
@@ -103,7 +114,7 @@ function roomControllerFindConstructureSite(spawnName){
 		filter:(structure)=>{
 			return (structure.structureType == STRUCTURE_WALL ||
 				structure.structureType == STRUCTURE_RAMPART) &&
-				structure.hits < 300000
+				structure.hits < 100000
 		}
 	})
 	if(CONSTRUCTION_SITES_target.length > 0 || STRUCTURE_target.length > 0 ){
@@ -292,3 +303,30 @@ function cheackEnemyBody(target){
     }
     return stuta
 }
+
+function checkPowerMsg(num){
+    var ter = Game.getObjectById(Memory.memorySource[num].terminalId)
+    var PS = Game.getObjectById(Memory.memorySource[num].PSid)
+    var stuta = false
+    if(ter && PS && ter.store.getUsedCapacity(RESOURCE_POWER) > 100){
+        if(PS.store.getUsedCapacity(RESOURCE_POWER) == 0){
+            stuta = true
+        }
+    }
+    return stuta
+}
+
+function psCreepAction(creep){
+    var ter = Game.getObjectById(Memory.creeps[creep.name].workter)
+    var PS = Game.getObjectById(Memory.creeps[creep.name].workps)
+    if(ter && PS && creep.store.getFreeCapacity(RESOURCE_POWER) > 0 && ter.store.getUsedCapacity(RESOURCE_POWER) > 100 && PS.store.getUsedCapacity(RESOURCE_POWER) == 0){
+        if(creep.withdraw(ter,RESOURCE_POWER,Math.min(100,ter.store[RESOURCE_POWER])) == ERR_NOT_IN_RANGE){
+            creep.moveTo(ter)
+        }
+    }else{
+        if(creep.transfer(PS,RESOURCE_POWER) == ERR_NOT_IN_RANGE){
+            creep.moveTo(PS)
+        }
+    }
+}
+
