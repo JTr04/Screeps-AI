@@ -76,17 +76,16 @@ function generateCreep(role,roomName,spawnName,mainRoom,num,ids){
 		if(pbcreeps.length < 1){
 			Game.spawns[spawnName].spawnCreep([ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,
             ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,
-            ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,
             MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,
             MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,
-            MOVE,MOVE,MOVE,MOVE,MOVE], 
+            ], 
 			name, {memory: {role: role, sourceid:ids}});
 		}
     }else if(role == 'pbheal'){
 		if(pbcreeps.length < 1){
 			Game.spawns[spawnName].spawnCreep([HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,
             HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,
-            HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,
+            HEAL,HEAL,HEAL,HEAL,HEAL,MOVE,MOVE,MOVE,MOVE,MOVE,
             MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,
             MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], 
 			name, {memory: {role: role, sourceid:ids}});

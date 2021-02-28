@@ -28,7 +28,7 @@ var LinkandTower = {
 							}
 						}
 					}else{
-						if(creep.room.controller.level >= 5 && Memory.creeps[creep.name].worklink != ''){
+						if(creep.room.controller.level >= 5 && creep.room.controller.level != 8 && Memory.creeps[creep.name].worklink != ''){
 							var link0 = Game.getObjectById(Memory.creeps[creep.name].worklink);
 							if(link0.store.getFreeCapacity(RESOURCE_ENERGY) > 0){
 								if(creep.transfer(link0,RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
@@ -36,9 +36,11 @@ var LinkandTower = {
 								}
 							}
 						}else{
-							if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-								creep.moveTo(creep.room.controller,{visualizePathStyle: {stroke: '#ffaa00'}});
-							} 
+						    if(creep.room.controller.level != 8){
+						        if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+							       	creep.moveTo(creep.room.controller,{visualizePathStyle: {stroke: '#ffaa00'}});
+							    } 
+						    }
 						}
 					}
                 }
@@ -46,22 +48,35 @@ var LinkandTower = {
      
                 
         }else{
-            var targets = Game.getObjectById(Memory.creeps[creep.name].con);
-                if(Memory.creeps[creep.name].con != '' && targets && targets.store.getUsedCapacity(RESOURCE_ENERGY) > 1000){
-    				if(creep.withdraw(targets, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-    					creep.moveTo(targets ,{visualizePathStyle: {stroke: '#ffaa00'}});
-    					
-    				}
-                }else{
-                    var ids = Memory.creeps[creep.name].workloc;
-                    var sourcea = Game.getObjectById(ids);
-                    if(creep.harvest(sourcea) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(sourcea, {visualizePathStyle: {stroke: '#ffaa00'}});
+            try{
+                var sto = creep.room.storage
+                if(creep.room.controller.level == 8){
+                    if(sto && sto.store.getUsedCapacity(RESOURCE_ENERGY) > 1000){
+                    	if(creep.withdraw(sto, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+    					    creep.moveTo(sto ,{visualizePathStyle: {stroke: '#ffaa00'}});
+    				    }   
                     }
-                    
+                }else{
+                    var targets = Game.getObjectById(Memory.creeps[creep.name].con);
+                    if(Memory.creeps[creep.name].con != '' && targets && targets.store.getUsedCapacity(RESOURCE_ENERGY) > 1000){
+        				if(creep.withdraw(targets, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+        					creep.moveTo(targets ,{visualizePathStyle: {stroke: '#ffaa00'}});
+        					
+        				}
+                    }else{
+                        var ids = Memory.creeps[creep.name].workloc;
+                        var sourcea = Game.getObjectById(ids);
+                        if(creep.harvest(sourcea) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(sourcea, {visualizePathStyle: {stroke: '#ffaa00'}});
+                        }
+                        
+                    }
                 }
-        }
+            }catch(err){
+                console.log(err.message)
+            }
         
+        }
     }
         
 }            

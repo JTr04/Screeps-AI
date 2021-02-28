@@ -158,22 +158,16 @@ function check(ids){
 }
 
 function show(stoTest,ids){
-	var energy = Game.getObjectById(ids).store.getUsedCapacity('energy')
-	var z =  Game.getObjectById(ids).store.getUsedCapacity(RESOURCE_ZYNTHIUM)
-	var o =  Game.getObjectById(ids).store.getUsedCapacity(RESOURCE_OXYGEN)
-	var k =  Game.getObjectById(ids).store.getUsedCapacity(RESOURCE_KEANIUM)
-	var z_bar = Game.getObjectById(ids).store.getUsedCapacity(RESOURCE_ZYNTHIUM_BAR)
-	var o_bar = Game.getObjectById(ids).store.getUsedCapacity(RESOURCE_OXIDANT)
-	var k_bar = Game.getObjectById(ids).store.getUsedCapacity(RESOURCE_KEANIUM_BAR)
-    console.log(stoTest+'<br/>'
-		+'energy : '+energy+'<br/>'
-		+'Z : '+z+'<br/>'
-		+'O : '+o+'<br/>'
-		+'k : '+k+'<br/>'
-		+'z_bar : '+z_bar+'<br/>'
-		+'o_bar : '+o_bar+'<br/>'
-		+'k_bar : '+k_bar+'<br/>')
+	var obj = Game.getObjectById(ids)
+	var source = Object.keys(obj.store)
+	var msg = []
+	for(var s of source){
+		msg.push(JSON.parse('{"'+s+'" : "'+obj.store[s]+'"}'))
+		msg.push('<br/>')
+	}
+	console.log(stoTest+'<br/>'+JSON.stringify(msg))
 }
+
 
 
 

@@ -8,6 +8,7 @@ var roleBuildera = require('role.buildera');
 var roleNewHarvester= require('role.newharvester');
 var roleS2t = require('role.s2t');
 var roleAttacker = require('role.attack');
+var newTransfer = require('role.newtransfer')
 
 var tt = require('tt');
 
@@ -100,6 +101,8 @@ module.exports.loop = function () {
     // terminalWorkAction.run();
     
     // ObserverAction.run();
+    
+    roleTower.run();
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
@@ -138,13 +141,14 @@ module.exports.loop = function () {
         if(creep.memory.role == 'tt'){
             tt.run(creep);
         }
+        if(creep.memory.role == 'newtransfer') {
+            newTransfer.run(creep);
+        }
     }
 
 // 	var towerList = _.filter(Game.structures, s =>s.structureType == STRUCTURE_TOWER);
-	for(var t in Memory.towerList){
-	    var tower = Game.getObjectById(Memory.towerList[t]);
-	    roleTower.run(tower);
-	}
+
+	    
 // 	for(var tower of towerList){
 // 		roleTower.run(tower);
 // 	}

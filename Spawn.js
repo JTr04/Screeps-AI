@@ -29,6 +29,8 @@ var SpawnFunction = {
         
         var fac = Memory.memorySource[num].factoryId;
         
+        var nuk = Memory.memorySource[num].NUKid;
+        
         var Hbody = [WORK,CARRY,MOVE];
         var Tbody = [WORK,CARRY,MOVE];
         var Ubody = [WORK,CARRY,MOVE];
@@ -103,6 +105,12 @@ var SpawnFunction = {
                         console.log(spawnName+' Spawning new '+creepList[roles] +' :'+newName);
                         Game.spawns[spawnName].spawnCreep( Tbody,newName,
                         { memory: { role: creepList[roles] ,spawnSign : spawnName,roomSign:roomSign,workloc : s , con : cS1, worklink:link3,worksto:sto,workter : ter} } );
+                    }
+                }else if(creepList[roles] == 'newtransfer'){
+                    if(creepTarget.length < 1){
+                        console.log(spawnName+' Spawning new '+creepList[roles] +' :'+newName);
+                        Game.spawns[spawnName].spawnCreep( Tbody,newName,
+                        { memory: { role: creepList[roles] ,spawnSign : spawnName,roomSign:roomSign ,worksto:sto,workter : ter,worknuk:nuk} } );
                     }
                 }else if(creepList[roles] == 's2t'){
                     if(creepTarget.length <1){

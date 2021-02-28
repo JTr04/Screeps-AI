@@ -220,13 +220,13 @@ function inLabRun(){
     var num
     for(var l in Memory.roomResource){
         for(var r in workRoom){
-	        if(Memory.roomResource[l].roomName == workRoom[i]){
+	        if(Memory.roomResource[l].roomName == workRoom[r]){
 	            LABTask = Memory.roomResource[l].labId
 	            num = Memory.roomResource[l].spawnResourceIndex
 	            for(var s in roomMinSource){
-	                if( Memory.roomResource[l].roomName == roomMinSource[i].mainroom){
-                        min1 = roomMinSource[i].min1
-                        min2 = roomMinSource[i].min2
+	                if( Memory.roomResource[l].roomName == roomMinSource[s].mainroom){
+                        min1 = roomMinSource[s].min1
+                        min2 = roomMinSource[s].min2
 	                }
 	            }
 	            
@@ -257,7 +257,7 @@ function inLabRun(){
                     inLab.runReaction(out1,out2)
                 }else{
                     if(sto.store.getUsedCapacity(min2) < 30000){
-                        inLab.runReaction(out1.out3)
+                        inLab.runReaction(out1,out3)
                     }
                 }
             }

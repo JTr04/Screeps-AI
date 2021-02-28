@@ -19,7 +19,7 @@ var memoryFunction = {
                             	roomName : 'E59N31',
                             	roomSpawn : ['Spawn1','Spawn1_2','Spawn1_3'],
                             	spawnResourceIndex : 0,
-                            	towerList : ['5f9efa7c7dea8913c2ceb3ae','5fa51d4e0232ee132b9081dc','5fd2e503386773215b49aa72'],
+                            	towerList : ['600e359069f8bc7830731160', '600e391747ffce39511a7f55','600e3d5423de66123c641a2a','603860f7434e3b5a3cb4580e', '6038657dd62436ffcf36272d', '603869c3912fec3f35f61d9e'],
                             	mineralName:RESOURCE_ZYNTHIUM,
                             	labId:[
                             			{
@@ -55,20 +55,20 @@ var memoryFunction = {
                             	    roomName : 'E59N39',
                             	    roomSpawn : ['Spawn2_2','Spawn2','Spawn2_3'],
                             	    spawnResourceIndex : 1,
-                            	    towerList : ['5fad7ddf75c5ec954679c03e','5fb618445c05c7873c508f24','5fcc90e159e7e15db3df2b4a'],
+                            	    towerList : ['6020bdb75a1b6044673c3d0d', '6020c0c626d3d85b03bc1e13', '6020c58502609a01b6678a7f','60376687fc4bbe95c1aab4f0', '603769b93f89d2749222e979', '60376edc210d07ed47f43779'],
                             	    mineralName:RESOURCE_OXYGEN
                             	}
                             	,{
                             	    roomName : 'E51N41',
                             	    roomSpawn : ['Spawn3','Spawn3_2','Spawn3_3'],
                             	    spawnResourceIndex : 2,
-                            	    towerList : ['5fcc45e30569d6c66be132d0','5fd5a0de5c1325a84721b000','5ff4a18738ed907fbe8e5e3a'],
+                            	    towerList : ['602a547407d269619d5094d9', '602a458ab86cd490ee8106fc', '602a3681fe9600587ab203e1','603769dffe96000da7b75d85', '60376f793df0b0352b1f3157', '603773be89517538a4c1c209'],
                             	    mineralName:RESOURCE_KEANIUM
                             	},{
                             	   roomName : 'E46N43',
-                            	    roomSpawn : ['Spawn4','Spawn4_2'],
+                            	    roomSpawn : ['Spawn4','Spawn4_2','Spawn4_3'],
                             	    spawnResourceIndex : 3,
-                            	    towerList : ['5fea1c041ba3a207b32f9f09','5ff07e4b7537e41cd3f72bb7','6005abfecce6adc8c0cb8a6b'],
+                            	    towerList : ['5fea1c041ba3a207b32f9f09','5ff07e4b7537e41cd3f72bb7','6005abfecce6adc8c0cb8a6b','603498c0d01f44b28503c86a', '603494ad0c8afa1dd6853bb9', '60348fdb6618fd599c93191a'],
                             	    mineralName:RESOURCE_CATALYST
                             	},{
                             	   roomName : 'E49N38',
@@ -78,9 +78,9 @@ var memoryFunction = {
                             	    mineralName:RESOURCE_UTRIUM
                             	},{
                             	   roomName:'E43N42',
-                            	    roomSpawn:['Spawn6'],
+                            	    roomSpawn:['Spawn6','Spawn6_2'],
                             	    spawnResourceIndex : 5,
-                            	    towerList : ['60129200f67fb479db7e80aa','601ca1fc9d7c675adc83930b'],
+                            	    towerList : ['60129200f67fb479db7e80aa','601ca1fc9d7c675adc83930b','6034acac37ff393a30524820'],
                             	    mineralName:RESOURCE_HYDROGEN
                             	}
                               ]
@@ -96,7 +96,7 @@ var memoryFunction = {
                             5:['s2t','linkandtower','upgradera','newharvester','transfer'],
                             6:['s2t','linkandtower','upgradera','newharvester','transfer'],
                             7:['s2t','linkandtower','upgradera','newharvester','transfer'],
-                            8:['s2t','linkandtower','newharvester','transfer']
+                            8:['s2t','linkandtower','newharvester','newtransfer']
                             }
         
         Memory.memorySource = [
@@ -159,9 +159,9 @@ var memoryFunction = {
                                 containerS1:'5fcf471bfe9dc021a88d7ed7',
                                 containerS2:'5fcf7879d958776f8d9a8d49',
                                 factoryId:'601f2551bdcae00a18b333a1',
-                                PSid:'',
-                                OBid:'',
-                                NUKid:''
+                                PSid:'602bcb46efd5d469cf4fc83f',
+                                OBid:'602bac1a67aeb4e6d4577b07',
+                                NUKid:'602bfd303f89d253a61eb647'
                                },{
                                 harX1:24,
                                 harY1:19,
@@ -173,15 +173,15 @@ var memoryFunction = {
                                 link1:'5ff06319cbb05a8199dbaf68',
                                 link2:'5ff06f1178f874d2712601cd',
                                 link3:'5ff7718dff8a41008cf6ba62',
-                                link4:'',
+                                link4:'60354595f201b61386e8dacd',
                                 mineralId:'5bbcb68dd867df5e54207976',
                                 terminalId:'5ff877c26283d824ddc62972',
                                 containerS2:'5fec4b2fbbb4cc728ae64fc3',
                                 containerS1:'5fec56a6dd025b35478f2783',
-                                factoryId:'',
-                                PSid:'',
-                                OBid:'',
-                                NUKid:''
+                                factoryId:'6017fd4a0548e6f946c19a58',
+                                PSid:'6035fbadd624367f2835479c',
+                                OBid:'60349b6eb99cbc1241489938',
+                                NUKid:'603517f51b94d03858d18b33'
                                },
                                {
                                 harX:7,
@@ -226,12 +226,6 @@ var memoryFunction = {
                                 NUKid:''
                                }
         ];
-        Memory.towerList = ['5f9efa7c7dea8913c2ceb3ae',
-                            '5fad7ddf75c5ec954679c03e',
-                            '5fcc45e30569d6c66be132d0',
-                            '5fea1c041ba3a207b32f9f09',
-                            '6003903fc1ec6c46b62bd431',
-                            '60129200f67fb479db7e80aa']
         
         Memory.friendName = ['xiaodai'];
         

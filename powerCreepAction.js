@@ -9,6 +9,9 @@ var pcRoomMsg = [
 	{
 		PCRoom:'E59N39',
 		PCName:'PC1'
+	},{
+	    PCRoom:'E59N31',
+	    PCName:'PC2'
 	}
 ]
 
@@ -22,7 +25,7 @@ function checkRoomPower(){
 				pcname = pcRoomMsg[i].PCName
 				var pc = Game.powerCreeps[pcname]
 				//检测pc是否意外死亡或者第一次开启pc
-				if(!pc){
+				if(pc.pos == undefined){
 					//在此之前请手动添加pc实例
 					//PowerCreep.create('PC1', POWER_CLASS.OPERATOR);
 					createPC(pcname,PS)	
@@ -98,7 +101,7 @@ function opExt(creep){
         else target = null;
     }
     
-    if(creep.room.energyAvailable <= 0.5* creep.room.energyCapacityAvailable && creep.powers[PWR_OPERATE_EXTENSION].cooldown == 0){
+    if(creep.room.energyAvailable <= 0.9*creep.room.energyCapacityAvailable && creep.powers[PWR_OPERATE_EXTENSION].cooldown == 0){
         if(creep.store[RESOURCE_OPS] >= 10){
 			creep.moveTo(target,{range:3})
 			creep.usePower(PWR_OPERATE_EXTENSION,target)

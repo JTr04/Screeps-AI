@@ -45,6 +45,7 @@ var defensive = {
                 healAction(creep)
             }
             if(creep.memory.role == 'trpower'){
+                creepDelete(creep)
                 psCreepAction(creep)
             }
 		}
@@ -85,7 +86,7 @@ function generateCreep(role,roomName,spawnName,num,id){
 	var pbcreeps = _.filter(Game.creeps, (creep) => creep.memory.role == role && creep.memory.roomSign == roomName)
 	if(role == 'maxbuilder' && pbcreeps.length < 1){
 		Game.spawns[spawnName].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], 
-			role, {memory: {role: role, roomSign: roomName,worksto:sto,worklink:link4 ,ids:id}});
+			name, {memory: {role: role, roomSign: roomName,worksto:sto,worklink:link4 ,ids:id}});
     }else if(role == 'safeAttack' && pbcreeps.length < 1 ){
         Game.spawns[spawnName].spawnCreep([ATTACK,ATTACK,ATTACK,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK], 
 			name, {memory: {role: role, roomSign: roomName,ids:id}});
@@ -330,3 +331,10 @@ function psCreepAction(creep){
     }
 }
 
+function creepDelete(creep){
+	var t = creep.ticksToLive
+	var num = creep.store.getCapacity()
+	if(creep.store.getFreeCapacity() == num && t < 80){
+		creep.suicide()
+	}
+}

@@ -1,7 +1,18 @@
+/*
+*需要插旗 flagName ：source+'roomName'
+*/
+
+
+/**
+*@param {roomName} 目标房间
+*@param {targetid} 目标建筑
+*@param {istructionid} 存储建筑
+*@param {source} 目标资源
+*/
 var tt = {
-    run:function(creep){
+    run:function(roomName,targetid,istructionid,source){
         
-        if(creep.memory.traning && creep.store[RESOURCE_ENERGY] == 0) {
+        if(creep.memory.traning && creep.store[source] == 0) {
             creep.memory.traning = false;
 	    }
 	    if(!creep.memory.traning && creep.store.getFreeCapacity() == 0) {
@@ -9,17 +20,30 @@ var tt = {
 	    }
         if(creep.memory.traning){
     
-            var targetS = Game.getObjectById('602800c236d8b33dc944e2fa');
-            if(targetS && targetS.store.getFreeCapacity('energy') > 0){
-                if(creep.transfer(targetS,'energy') == ERR_NOT_IN_RANGE){
+            var targetS = Game.getObjectById(istructionid);
+			if(!tagretS) console.log('目标不存在')
+
+            if(targetS && targetS.store.getFreeCapacity(source) > 0){
+                if(creep.transfer(targetS,source) == ERR_NOT_IN_RANGE){
                     creep.moveTo(targetS);
                 }
             }
             
         }else{
-            var ter = Game.getObjectById('5fd06df40c0e64ddba02702d');
-            if(ter && ter.store.getUsedCapacity('energy') > 0){
-                if(creep.withdraw(ter, 'energy') == ERR_NOT_IN_RANGE) {
+			if(creep.room.name != roomName){
+				var flagName = source+'roomName'
+				var targetFlag = Game.flags.flagName
+				if(!targetFlag)creep.say('🚩呢?')
+				creep.moveTo(targetFlag)
+				return
+			}
+            var ter = Game.getObjectById(targetid);
+
+			if(!ter) console.log('目标不存在')
+			if(!checkSource(targetid,source)) console.log('资源不存在')
+
+            if(ter && ter.store.getUsedCapacity(source) > 0){
+                if(creep.withdraw(ter, source) == ERR_NOT_IN_RANGE) {
         			creep.moveTo(ter);
             	}
             }
@@ -27,3 +51,14 @@ var tt = {
     }
 }
 module.exports= tt;
+
+function checkSource(targetid,source){
+	var stuta = false
+	var sources = Object.keys(Game.getObjectById(targetid))
+	for(var i in sources){
+		if(source == sources[i]){
+			stuta = true
+		}
+	}
+	return stuta
+}
