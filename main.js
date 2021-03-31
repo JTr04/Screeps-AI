@@ -49,7 +49,7 @@ module.exports.loop = function () {
     
     // remote.run();
     // if(Game.rooms.length !=3){
-        // claimNewRoom.run('Spawn3','E43N42');
+        //claimNewRoom.run('Spawn3','E47N46');
     // }
     // lookForSource.run();
     memoryFunction.run();
@@ -61,7 +61,7 @@ module.exports.loop = function () {
     var num;
     var spawnList ;
     var creepList ;
-    var roomList = ['E59N31','E59N39','E51N41','E46N43','E49N38','E43N42'];
+    var roomList = ['E59N31','E59N39','E51N41','E46N43','E49N38','E43N42','E47N46'];
     var roomCreepsType ;
     for (var r in roomList){
     	for(var i in Memory.roomResource){
@@ -90,19 +90,21 @@ module.exports.loop = function () {
     Mhar.run();
     //labWorkAction.run();
     
-    // maxCreep.run()
+    maxCreep.run()
     
     // roleOutSource.run('E51N39','5bbcb00c9099fc012e63b84f',false,false)
     
     // factory.run()
     
-    // marketAction.run();
+    marketAction.run();
     
     // terminalWorkAction.run();
     
     // ObserverAction.run();
     
     roleTower.run();
+    
+    roleAttacker.run();
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
@@ -135,9 +137,7 @@ module.exports.loop = function () {
         if(creep.memory.role == 's2t') {
             roleS2t.run(creep);
         }
-        if(creep.memory.role == 'attack'){
-            roleAttacker.run(creep);
-        }
+
         if(creep.memory.role == 'tt'){
             tt.run(creep);
         }

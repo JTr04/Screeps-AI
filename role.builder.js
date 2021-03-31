@@ -5,9 +5,9 @@ var roleBuilder = {
     run: function(creep) {
 
         
-        if(creep.room.name != 'E43N42'){
+        if(creep.room.name != 'E47N46'){
             // moveToTarget.run(creep)
-            creep.moveTo(Game.flags.Flag5)
+            creep.moveTo(Game.flags.Flag1)
             return;
         }
          
@@ -61,14 +61,14 @@ var roleBuilder = {
 	    }
 	    else {
 	        if(creep.room.controller) {
-                var c = Game.getObjectById('5bbcaf809099fc012e63aada');
+                var c = Game.getObjectById('5bbcafca9099fc012e63b325');
                 if(creep.claimController(c) == ERR_NOT_IN_RANGE || creep.signController(creep.room.controller,'逍遥半生酒中意，一剑碎影向征程')!= ERR_NOT_IN_RANGE) {
                     creep.moveTo(c);
                 }
             }
 	        var ids = Memory.creeps[creep.name].workloc;
             // var sourcea = Game.getObjectById(ids);
-            var sourcea = Game.getObjectById('5bbcaf809099fc012e63aad9');
+            var sourcea = Game.getObjectById('5bbcafca9099fc012e63b324');
             if(creep.harvest(sourcea) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sourcea, {visualizePathStyle: {stroke: '#ffaa00'}});
             }

@@ -167,13 +167,22 @@ Memory.needEnergyTower = [
        roomName:'E49N38',
         towerList:[
             {
-                towerId:'6003903fc1ec6c46b62bd431',
+                towerId:'6057021e080aea51ccd56c29',
                 towerStuta:true
             },{
-                towerId:'600fa47ec609bd587be24f73',
+                towerId:'605705216618fd5dc29ec790',
                 towerStuta:true
             },{
-                towerId:'602a91b6d2b0866af61022ed',
+                towerId:'6057080d0eb514e02e93b8fe',
+                towerStuta:true
+            },{
+                towerId:'60580445080aea0ee5d5bc7e',
+                towerStuta:true
+            },{
+                towerId:'60580812080aea53d2d5bdce',
+                towerStuta:true
+            },{
+                towerId:'605800b81301dece086aad3c',
                 towerStuta:true
             }
         ] 
@@ -191,6 +200,17 @@ Memory.needEnergyTower = [
                 towerStuta:true
             }
         ] 
+    },{
+       roomName:'E47N46',
+        towerList:[
+            {
+                towerId:'6040f5c1924750e560f2bc29',
+                towerStuta:true
+            },{
+                towerId:'60561d478fd0e92251819268',
+                towerStuta:true
+            }
+        ]  
     }
 ]
 
@@ -239,9 +259,9 @@ function checkTowerEnmy(){
 		});
 		if(creepTarget.length > 0){
 			for(var c in creepTarget){
-				if(!checkTask(creepTarget[c],Memory.towerEnmy) && cheackEnemyBody(creepTarget[c])){
+			    var ids = creepTarget[c].id
+				if(!checkTask(ids , Memory.towerEnmy) && cheackEnemyBody(creepTarget[c])){
 					var task = {}
-					var ids = creepTarget[c].id
 					task.id = ids
 					task.ownername = creepTarget[c].owner.username
 					task.mainroom = roomName
@@ -275,9 +295,9 @@ function checkTowerTarget(){
 		
 		if(RepairStructure){
 			for(var w in RepairStructure){
-				if(!checkTask(RepairStructure[w],Memory.towerTarget)){
+			    var ids = RepairStructure[w].id
+				if(!checkTask(ids,Memory.towerTarget)){
 					var rtask = {}
-					var ids = RepairStructure[w].id
 					rtask.mainroom = roomName
 					rtask.id = ids
 					rtask.type = 'repair'
@@ -288,9 +308,9 @@ function checkTowerTarget(){
 		}
 		if(ramp){
 			for(var ra in ramp){
-				if(!checkTask(ramp[ra],Memory.towerTarger)){
+			    var ids = ramp[ra].id
+				if(!checkTask(ids,Memory.towerTarget)){
 					var ratask = {}
-					var ids = ramp[ra].id
 					ratask.id = ids
 					ratask.mainroom = roomName
 					ratask.type = 'defend'
@@ -305,7 +325,7 @@ function checkTowerTarget(){
 function checkTask(target,taskList){
 	var stuta = false
 	for(var i in taskList){
-		if(target.id == taskList[i].id){
+		if(taskList[i].id == target){
 			stuta = true
 		}
 	}

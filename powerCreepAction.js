@@ -44,15 +44,17 @@ function checkRoomPower(){
 						}else{
 							//007
 							var ter = pc.room.terminal
-							if(ter.store.getUsedCapacity('ops') < 20000){
+							if(pc.store.getFreeCapacity('ops') > 0){
 							    pc.usePower(PWR_GENERATE_OPS)
-								if(pc.store[RESOURCE_OPS] >= 100 ){
+							}
+							if(ter.store.getUsedCapacity('ops') < 20000){
+								if(pc.store[RESOURCE_OPS] > 100 ){
                         			pc.moveTo(ter)
                         			pc.transfer(ter,RESOURCE_OPS)
                                 }
 							}else{
 								opExt(pc)
-								opSto(pc)
+								// opSto(pc)
 							}
 							
 						}
@@ -120,14 +122,24 @@ function opSto(creep){
 		str = creep.room.storage
 	}
 	var target = creep.room.storage
-
-	if(target.effects.ticksRemaining <= 150 && creep.powers[PWR_OPERATE_STORAGE].cooldown == 0){
-		if(creep.store[RESOURCE_OPS] >= 100){
+    if(target.effects.effect == undefined){
+        if(creep.store[RESOURCE_OPS] >= 100){
 			creep.moveTo(target,{range:3})
 			creep.usePower(PWR_OPERATE_STORAGE,target)
 		}else{
 			creep.moveTo(str)
 			creep.withdraw(str,RESOURCE_OPS,Math.min(100,str.store[RESOURCE_OPS]))
 		}
-	}
+    }else{
+    	if(target.effects.ticksRemaining <= 150 && creep.powers[PWR_OPERATE_STORAGE].cooldown == 0){
+    		if(creep.store[RESOURCE_OPS] >= 100){
+    			creep.moveTo(target,{range:3})
+    			creep.usePower(PWR_OPERATE_STORAGE,target)
+    		}else{
+    			creep.moveTo(str)
+    			creep.withdraw(str,RESOURCE_OPS,Math.min(100,str.store[RESOURCE_OPS]))
+    		}
+    	}
+    }
+    
 }

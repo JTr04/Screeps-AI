@@ -9,10 +9,10 @@ var claimNewRoom = {
 		    isCreepExist('see',roomName,spawnName)
 		}
 		if(Game.rooms[roomName]){
-		    if(Game.rooms[roomName].controller.level < 4 && Game.rooms[roomName].controller.owner.username == 'verp_T'){
+		    if(Game.rooms[roomName].controller.level < 5 && Game.rooms[roomName].controller.owner.username == 'verp_T'){
                 if(controllerFindConstructionSites(roomName)){
-    			 //   isCreepExist('newbuilder',roomName,spawnName)
-    				// isCreepExist('newbuildera',roomName,spawnName)
+    			    isCreepExist('newbuilder',roomName,spawnName)
+    				isCreepExist('newbuildera',roomName,spawnName)
     			
     			}
             }
@@ -87,7 +87,7 @@ function generateCreep(role,roomName,spawnName){
 		Game.spawns[spawnName].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], 
 			role, {memory: {role: role, room: roomName}});
     }else if(role == 'newbuildera' && claimcreeps.length < 1){
-		Game.spawns[spawnName].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], 
+		Game.spawns[spawnName].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], 
 			role, {memory: {role: role, room: roomName}});
     }else{
 		console.log('【没有role的类型】');
@@ -188,7 +188,7 @@ function controllerFindConstructionSites(roomName){
 	//	filter: (structure) => structure.structureType == STRUCTURE_SPAWN
 //	}
 	)
-	if(target && Game.rooms[roomName].controller.level < 4){
+	if(target && Game.rooms[roomName].controller.level < 5){
 		b=true
 	}
 	return b

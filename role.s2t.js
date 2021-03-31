@@ -48,7 +48,7 @@ function s2tTaskAction(creep,task,i){
 	var toS = Game.getObjectById(Game.creeps[creep.name].memory[task.toS])
 	var source = task.source
 	var num = task.num
-	if(creep.store[source] == 0 ){
+	if(creep.store[source] == 0 && creep.store.getFreeCapacity() >= 200){
 		if(fromS && fromS.store.getUsedCapacity(source) > 0 && toS && toS.store.getUsedCapacity(source) < num){
 			if(creep.withdraw(fromS,source,Math.min(200,fromS.store[source])) == ERR_NOT_IN_RANGE){
 				creep.moveTo(fromS)
@@ -59,6 +59,9 @@ function s2tTaskAction(creep,task,i){
 	}else{
 	    for(var i in Object.keys(creep.store)){
 	        source = Object.keys(creep.store)[i]
+	    }
+	    if(toS.store.getFreeCapacity(source) == 0){
+	        toS = creep.room.terminal;
 	    }
         if(creep.transfer(toS,source) == ERR_NOT_IN_RANGE){
 			creep.moveTo(toS)

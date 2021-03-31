@@ -116,7 +116,7 @@ var SpawnFunction = {
                     if(creepTarget.length <1){
                         console.log(spawnName+' Spawning new '+creepList[roles] +' :'+newName);
                         Game.spawns[spawnName].spawnCreep( Sbody,newName,
-                        { memory: { role: creepList[roles] ,spawnSign : spawnName,roomSign:roomSign,worklink:link2,worksto : sto, workter : ter,workfac:fac} } );
+                        { memory: { role: creepList[roles] ,spawnSign : spawnName,roomSign:roomSign,worklink:link2,worksto : sto, workter : ter,workfac:fac,worknuk:nuk} } );
                     }
                 }else if(creepList[roles] == 'builder'){
                     if(creepTarget.length < 2){

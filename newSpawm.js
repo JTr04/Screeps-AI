@@ -65,7 +65,7 @@ var newSpawn = {
         // 	Hbody = [MOVE,MOVE,WORK,WORK,WORK,WORK,WORK];
         	Tbody = [WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE];
         	ULbody = [WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE];
-        	Ubody = [WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE];
+        	Ubody = [WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE];
 	    	Lbody = [WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE];
         	Sbody = [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE];
         }
@@ -124,13 +124,13 @@ var newSpawn = {
                     if(creepTarget.length < 1){
                         console.log(spawnName+' Spawning new '+creepList[roles] +' :'+newName);
                         Game.spawns[spawnName].spawnCreep( Lbody,newName,
-                        { memory: { role: creepList[roles] ,spawnSign : spawnName,roomSign:roomSign,workloc : sone ,worklink : link1 , con : cS2 } } );
+                        { memory: { role: creepList[roles] ,spawnSign : spawnName,roomSign:roomSign,workloc : s ,worklink : link1 , con : cS2 } } );
                     }
                 }else if(creepList[roles] == 'transfer'){
                     if(creepTarget.length < 2){
                         console.log(spawnName+' Spawning new '+creepList[roles] +' :'+newName);
                         Game.spawns[spawnName].spawnCreep( Tbody,newName,
-                        { memory: { role: creepList[roles] ,spawnSign : spawnName,roomSign:roomSign,workloc : s , con : cS1, worklink:link3,worksto : sto} } );
+                        { memory: { role: creepList[roles] ,spawnSign : spawnName,roomSign:roomSign,workloc : sone , con : cS1, worklink:link3,worksto : sto} } );
                     }
                 }else if(creepList[roles] == 's2t'){
                     if(creepTarget.length <1){
@@ -156,7 +156,7 @@ var newSpawn = {
                         Game.spawns[spawnName].spawnCreep(Ubody ,newName,
                         { memory: { role: creepList[roles] ,spawnSign : spawnName, roomSign:roomSign,worksto:sto , workter : ter, workmin : m} } );
                     }
-                }else if(creepTarget.length < 4){
+                }else if(creepTarget.length < 2){
                     console.log(spawnName+' Spawning new '+creepList[roles] +' :'+newName);
                     Game.spawns[spawnName].spawnCreep( Ubody,newName,
                     { memory: { role: creepList[roles] ,spawnSign : spawnName,roomSign:roomSign,workloc : sone,worksto : sto, workter : ter} } );

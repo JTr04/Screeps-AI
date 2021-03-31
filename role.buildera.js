@@ -4,9 +4,9 @@ var roleBuildera = {
     /** @param {Creep} creep **/
     run: function(creep) { 
         
-		if(creep.room.name != 'E43N42'){
+		if(creep.room.name != 'E47N46'){
             // moveToTarget.run(creep)
-            creep.moveTo(Game.flags.Flag5)
+            creep.moveTo(Game.flags.Flag1)
             return;
         }
 
@@ -29,7 +29,7 @@ var roleBuildera = {
     // 			}
                 var ids = Memory.creeps[creep.name].workloc;
                 // var target = Game.getObjectById(ids);
-                var target = Game.getObjectById('5bbcaf809099fc012e63aad8');
+                var target = Game.getObjectById('5bbcafca9099fc012e63b325');
                 if(creep.harvest(target) == ERR_NOT_IN_RANGE){
                     creep.moveTo(target);
                 }
