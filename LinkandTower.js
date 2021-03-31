@@ -18,19 +18,21 @@ var LinkandTower = {
 						for(var j in Memory.needEnergyTower[i].towerList){
 							if(Memory.needEnergyTower[i].towerList[j].towerStuta){
 								var target = Game.getObjectById(Memory.needEnergyTower[i].towerList[j].towerId)
-								if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-								   creep.moveTo(target);
-								   creep.say('tower');
-								}
-								if(target.store.getUsedCapacity(RESOURCE_ENERGY) == target.store.getCapacity(RESOURCE_ENERGY)){
-									Memory.needEnergyTower[i].towerList[j].towerStuta = false;
+								if(target){
+								    if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+    								   creep.moveTo(target);
+    								   creep.say('tower');
+    								}
+    								if(target.store.getUsedCapacity(RESOURCE_ENERGY) == target.store.getCapacity(RESOURCE_ENERGY)){
+    									Memory.needEnergyTower[i].towerList[j].towerStuta = false;
+    								}
 								}
 							}
 						}
 					}else{
 						if(creep.room.controller.level >= 5 && creep.room.controller.level != 8 && Memory.creeps[creep.name].worklink != ''){
 							var link0 = Game.getObjectById(Memory.creeps[creep.name].worklink);
-							if(link0.store.getFreeCapacity(RESOURCE_ENERGY) > 0){
+							if(link0 && link0.store.getFreeCapacity(RESOURCE_ENERGY) > 0){
 								if(creep.transfer(link0,RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
 									creep.moveTo(link0);
 								}

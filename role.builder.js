@@ -1,16 +1,14 @@
-var moveToTarget = require('moveToTarget');
 var roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
 
-        
-        if(creep.room.name != 'E43N42'){
+        var ROOM = Game.flags['Flag1'].pos.roomName;
+		if(creep.room.name != ROOM){
             // moveToTarget.run(creep)
-            creep.moveTo(Game.flags.Flag5)
+            creep.moveTo(Game.flags.Flag1)
             return;
         }
-         
 
 	    if(creep.memory.building && creep.store[RESOURCE_ENERGY] == 0) {
             creep.memory.building = false;
@@ -61,14 +59,13 @@ var roleBuilder = {
 	    }
 	    else {
 	        if(creep.room.controller) {
-                var c = Game.getObjectById('5bbcaf809099fc012e63aada');
-                if(creep.claimController(c) == ERR_NOT_IN_RANGE || creep.signController(creep.room.controller,'逍遥半生酒中意，一剑碎影向征程')!= ERR_NOT_IN_RANGE) {
-                    creep.moveTo(c);
+                if(creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE || creep.signController(creep.room.controller,'人不寐')!= ERR_NOT_IN_RANGE) {
+                    creep.moveTo(creep.room.controller);
                 }
             }
 	        var ids = Memory.creeps[creep.name].workloc;
             // var sourcea = Game.getObjectById(ids);
-            var sourcea = Game.getObjectById('5bbcaf809099fc012e63aad9');
+            var sourcea = Game.getObjectById('5bbcaadb9099fc012e6324b6');
             if(creep.harvest(sourcea) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sourcea, {visualizePathStyle: {stroke: '#ffaa00'}});
             }

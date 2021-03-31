@@ -48,7 +48,7 @@ function s2tTaskAction(creep,task,i){
 	var toS = Game.getObjectById(Game.creeps[creep.name].memory[task.toS])
 	var source = task.source
 	var num = task.num
-	if(creep.store[source] == 0 ){
+	if(creep.store[source] == 0 && creep.store.getFreeCapacity() >= 200){
 		if(fromS && fromS.store.getUsedCapacity(source) > 0 && toS && toS.store.getUsedCapacity(source) < num){
 			if(creep.withdraw(fromS,source,Math.min(200,fromS.store[source])) == ERR_NOT_IN_RANGE){
 				creep.moveTo(fromS)
@@ -59,6 +59,9 @@ function s2tTaskAction(creep,task,i){
 	}else{
 	    for(var i in Object.keys(creep.store)){
 	        source = Object.keys(creep.store)[i]
+	    }
+	    if(toS.store.getFreeCapacity(source) == 0){
+	        toS = creep.room.terminal;
 	    }
         if(creep.transfer(toS,source) == ERR_NOT_IN_RANGE){
 			creep.moveTo(toS)
@@ -138,11 +141,6 @@ function s2tAction(creep){
                 			creep.moveTo(ter);
                 			creep.say('996');		
                     	}
-                    }else if(fac && fac.store.getUsedCapacity(RESOURCE_ENERGY) >= 20200){
-                        if(creep.withdraw(fac, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                			creep.moveTo(fac);
-                			creep.say('996');		
-                    	}
                     }
                }
             }
@@ -171,9 +169,9 @@ global.s2tTsou = function(roomName1,fromS,toS,sour,num){
 		task.source = sour
 		task.num = num
 		Memory.s2tTask.push(task)
-		return 'ok'
+		return '<text style="color:green;font-size:13px;"> 【中央搬运工任务添加成功】</text>'
 	}else{
-	    return '任务已存在'
+	    return '<text style="color:yellow;font-size:13px;"> 【中央搬运工任务添加失败，原因：任务已存在】</text>'
 	}
 	
 }

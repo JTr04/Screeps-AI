@@ -11,7 +11,7 @@ var roleUpgradera = {
 	    }
 	    if(creep.memory.uping) {
 	        if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE
-    // 			||creep.signController(creep.room.controller,"逍遥半生酒中意，一剑碎影向征程") == ERR_NOT_IN_RANGE
+    // 			||creep.signController(creep.room.controller,"人不寐") == ERR_NOT_IN_RANGE
 	        ) {
                 creep.moveTo(creep.room.controller,{visualizePathStyle: {stroke: '#ffaa00'}});
             } 

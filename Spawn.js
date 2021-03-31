@@ -61,7 +61,7 @@ var SpawnFunction = {
     	var containerId;
     	var linkId
     	var energyLimt = energyHave/2;
-    	var key = 2
+    	var key = 4
     	if(Game.spawns[spawnName].room.controller.level == 8){
     	    key = 1
     	}

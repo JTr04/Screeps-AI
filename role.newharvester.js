@@ -21,17 +21,25 @@ var roleNewHarvester = {
         
         if(creep.memory.having){
             var targets = Game.getObjectById(Memory.creeps[creep.name].con);
-            if(targets && targets.store.getFreeCapacity(RESOURCE_ENERGY) > 0){
-                creep.transfer(targets,RESOURCE_ENERGY)
+            // if(targets){
+            //     creep.build(targets)
+            // }
+            if(targets && targets.hits < targets.hitsMax){
+                creep.repair(targets)
             }else{
-                if(creep.room.controller.level >= 5 && Memory.creeps[creep.name].worklink !=''){
-                    var link = Game.getObjectById(Memory.creeps[creep.name].worklink);
-                    creep.transfer(link,RESOURCE_ENERGY)
-                    // if(creep.transfer(link,RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-                    //     creep.moveTo(link)
-                    // }
+                if(targets && targets.store.getFreeCapacity(RESOURCE_ENERGY) > 0){
+                    creep.transfer(targets,RESOURCE_ENERGY)
+                }else{
+                    if(creep.room.controller.level >= 5 && Memory.creeps[creep.name].worklink !=''){
+                        var link = Game.getObjectById(Memory.creeps[creep.name].worklink);
+                        creep.transfer(link,RESOURCE_ENERGY)
+                        // if(creep.transfer(link,RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                        //     creep.moveTo(link)
+                        // }
+                    }
                 }
-            }  
+            }
+              
         }else{
             if(creep.pos.isEqualTo(x,y)){
                 creep.harvest(sourcea);
@@ -39,19 +47,6 @@ var roleNewHarvester = {
                 creep.moveTo(x,y);
             }
         }
-        // var end = Game.cpu.getUsed()
-        // console.log(end-start)        
-        // var targets = Game.getObjectById(Memory.creeps[creep.name].con);
-        // if(targets.store.getFreeCapacity(RESOURCE_ENERGY) > 0){
-        //     if(creep.pos.isEqualTo(x,y)){
-        //         creep.harvest(sourcea);
-        //         creep.say('007');
-        //     }else{
-        //         creep.moveTo(x,y);
-        //     }
-        // }else{
-        //     creep.say('link?');
-        // }
 	}
 };
 

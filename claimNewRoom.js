@@ -1,6 +1,5 @@
 var roleBuilder = require('role.builder');
 var roleBuildera = require('role.buildera');
-var moveToTarget = require('moveToTarget');
 var claimNewRoom = {
 	run : function(spawnName , roomName){
 	    
@@ -9,10 +8,10 @@ var claimNewRoom = {
 		    isCreepExist('see',roomName,spawnName)
 		}
 		if(Game.rooms[roomName]){
-		    if(Game.rooms[roomName].controller.level < 4 && Game.rooms[roomName].controller.owner.username == 'verp_T'){
+		    if(Game.rooms[roomName].controller.level < 4 && Game.rooms[roomName].controller.owner.username == 'v_tong'){
                 if(controllerFindConstructionSites(roomName)){
-    			 //   isCreepExist('newbuilder',roomName,spawnName)
-    				// isCreepExist('newbuildera',roomName,spawnName)
+    			    isCreepExist('newbuilder',roomName,spawnName)
+    				isCreepExist('newbuildera',roomName,spawnName)
     			
     			}
             }
@@ -26,7 +25,7 @@ var claimNewRoom = {
                     moveToTarget.run(creep)
                 }else{
 					var c = creep.room.controller
-					if(creep.signController(c,'it will be claimed by verp_T')== ERR_NOT_IN_RANGE) {
+					if(creep.signController(c,'it will be claimed by v_tong')== ERR_NOT_IN_RANGE) {
 							creep.moveTo(c);
 					}
 					if(roomMsg(roomName,creep)){
@@ -138,7 +137,7 @@ function newRoomFunctionAndCreep(roomName,creep){
 		}
 	}else{
 			// creep.attackController(creep.room.controller);
-		if(creep.signController(creep.room.controller,'目标：星辰 大海 cliamed by verp_T') == ERR_NOT_IN_RANGE){
+		if(creep.signController(creep.room.controller,'目标：星辰 大海 cliamed by v_tong') == ERR_NOT_IN_RANGE){
 			creep.moveTo(creep.room.controller);
 		}
 	}
