@@ -17,8 +17,9 @@ var powerCreepAction = require('powerCreepAction');
 
 var Mhar = require('Mhar');
 var claimNewRoom = require('claimNewRoom');
-var roleOutSource = require('roleOutSource');
+var outEnergy = require('roleOutSource');
 var group = require('group');
+var theGroup = require('fourGroup');
 
 var SpawnFunction = require('Spawn');
 var Link = require('Link');
@@ -35,6 +36,8 @@ var memoryFunction = require('memory');
 var overShard = require('overShard');
 
 require('console')
+
+
  
 module.exports.loop = function () {
     
@@ -53,10 +56,12 @@ module.exports.loop = function () {
         // lookForSource.run();
         memoryFunction.run();
         
-        // defensive.run();
+        defensive.run();
         
         // powerCreepAction.run();
         group.run()
+        
+        theGroup.run();
         
         var num;
         var spawnList ;
@@ -68,18 +73,20 @@ module.exports.loop = function () {
         		if(Memory.roomResource[i].roomName == roomList[r]){
         			spawnList = Memory.roomResource[i].roomSpawn;
         			for (var s in spawnList){
-        			    if(!spawnList[s])return
-        				num = Memory.roomResource[i].spawnResourceIndex;
-        				roomCreepsType = Game.spawns[spawnList[s]].room.controller.level;
-        				creepList = Memory.creepsList[roomCreepsType];
-        				if(roomCreepsType >= 7){
-        				    SpawnFunction.run(spawnList[s],num,creepList);
-        				}else{
-        				    newSpawn.run(spawnList[s],num,creepList);
-        				}
-        				if(roomCreepsType > 4){
-        				    Link.run(num);
-        				}
+        			    if(Game.spawns[spawnList[s]]){
+        			        num = Memory.roomResource[i].spawnResourceIndex;
+            				roomCreepsType = Game.spawns[spawnList[s]].room.controller.level;
+            				creepList = Memory.creepsList[roomCreepsType];
+            				if(roomCreepsType >= 7){
+            				    SpawnFunction.run(spawnList[s],num,creepList);
+            				}else{
+            				    newSpawn.run(spawnList[s],num,creepList);
+            				}
+            				if(roomCreepsType > 4){
+            				    Link.run(num);
+            				}
+        				
+        			    }
         				
         			}
         		}
@@ -87,24 +94,26 @@ module.exports.loop = function () {
         }
         // console.log(Memory.memorySource[1].link1)
         
-        // Mhar.run();
+        Mhar.run();
         // labWorkAction.run();
         
         maxCreep.run()
         
-        // roleOutSource.run('E48N41','59f1a63a82100e1594f3fc0a',false,false,1)
+        outEnergy.run();
         
         // factory.run()
         
         // marketAction.run();
         
-        // terminalWorkAction.run();
+        terminalWorkAction.run();
         
         // ObserverAction.run();
         
         roleTower.run();
         overShard.run();
         roleAttacker.run();
+        
+
     }
     
 
@@ -144,6 +153,9 @@ module.exports.loop = function () {
         // }
         if(creep.memory.role == 'ov') {
             overShard.run(creep);
+        }
+        if(creep.memory.role == 'newtransfer') {
+            newTransfer.run(creep);
         }
     }
 

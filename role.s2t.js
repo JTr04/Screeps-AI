@@ -54,6 +54,7 @@ function s2tTaskAction(creep,task,i){
 				creep.moveTo(fromS)
 			}
 		}else{
+		    console.log('<text style="color:green;font-size:13px;"> 【'+Memory.s2tTask[i].room1+' 中央搬运工任务已结束】</text>')
 			Memory.s2tTask.splice(i,1)
 		}
 	}else{

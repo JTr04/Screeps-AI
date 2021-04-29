@@ -15,15 +15,18 @@ var defensive = {
 				var num = Memory.roomResource[j].spawnResourceIndex;
 				var PS = Game.getObjectById(Memory.memorySource[num].PSid)
 				for(var s in spawnList){
-					if(roomControllerFindConstructureSite(spawnList[s])){
-						isCreepExist('maxbuilder',Memory.roomResource[j].roomName,spawnList[s],num,1)
-					}
-					if(Game.time % 5000 == 0 || Game.rooms[Memory.roomResource[j].roomName].controller.ticksToDowngrade <= 180000){
-					    isCreepExist('upgradera',Memory.roomResource[j].roomName,spawnList[s],num,1)
-					}
-					if(Game.time % 100 == 0 && checkPowerMsg(num)){
-					    isCreepExist('trpower',Memory.roomResource[j].roomName,spawnList[s],num,1)
-					}
+				    if(Game.spawns[spawnList[s]]){
+				        if(roomControllerFindConstructureSite(spawnList[s])){
+    						isCreepExist('maxbuilder',Memory.roomResource[j].roomName,spawnList[s],num,1)
+    					}
+    					if(Game.time % 5000 == 0 || Game.rooms[Memory.roomResource[j].roomName].controller.ticksToDowngrade <= 180000){
+    					    isCreepExist('upgradera',Memory.roomResource[j].roomName,spawnList[s],num,1)
+    					}
+    					if(Game.time % 100 == 0 && checkPowerMsg(num)){
+    					    isCreepExist('trpower',Memory.roomResource[j].roomName,spawnList[s],num,1)
+    					}
+				    }
+					
 				}
 				if(PS && PS.store.getUsedCapacity(RESOURCE_POWER) > 0){
 				    PS.processPower()

@@ -62,8 +62,10 @@ var SpawnFunction = {
     	var linkId
     	var energyLimt = energyHave/2;
     	var key = 4
+    	var k = 2
     	if(Game.spawns[spawnName].room.controller.level == 8){
     	    key = 1
+    	    k = 1
     	}
     	
         for(let roles in creepList){
@@ -101,7 +103,7 @@ var SpawnFunction = {
                         { memory: { role: creepList[roles] ,spawnSign : spawnName,roomSign:roomSign,workloc : sone ,worklink : link1 , con : cS2 } } );
                     }
                 }else if(creepList[roles] == 'transfer'){
-                    if(creepTarget.length < key){
+                    if(creepTarget.length < k){
                         console.log(spawnName+' Spawning new '+creepList[roles] +' :'+newName);
                         Game.spawns[spawnName].spawnCreep( Tbody,newName,
                         { memory: { role: creepList[roles] ,spawnSign : spawnName,roomSign:roomSign,workloc : s , con : cS1, worklink:link3,worksto:sto,workter : ter} } );

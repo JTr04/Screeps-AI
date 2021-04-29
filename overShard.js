@@ -58,10 +58,16 @@ function creepAction(creep){
             Game.cpu.generatePixel();
         } 
     }
-    if(creep.room.name == Game.flags.Flag1.pos.roomName){
-        creep.say('o(╥﹏╥)o',true)
-    }else{
-        creep.moveTo(Game.flags.Flag1)
-        creep.say('o(╥﹏╥)o',true)
+    if(Game.flags.Flag1){
+        if(creep.room.name == Game.flags.Flag1.pos.roomName){
+            if(!creep.pos.isEqualTo(Game.flags.Flag1)){
+                creep.moveTo(Game.flags.Flag1)
+            }
+            creep.say('o(╥﹏╥)o',true)
+        }else{
+            creep.moveTo(Game.flags.Flag1)
+            creep.say('o(╥﹏╥)o',true)
+        }
     }
+    
 }

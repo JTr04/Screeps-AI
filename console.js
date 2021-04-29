@@ -92,6 +92,47 @@ global.showOrder = function(ROOM,min){
     return JSON.stringify(text)
 }
 
+global.taskApi = function(){
+	return '<table border="1" cellpadding="10">'+
+			'<tr>'+
+				'<th>方法名</th>'+
+				'<th>参数种类</th>'+
+				'<th>方法说明</th>'+
+			'</tr>'+
+			'<tr>'+
+				'<td>addMaxWarTask</td>'+
+				'<td>mainRoom,targetRoom,flagName,boost,body</td>'+
+				'<td>四人小队任务发布</td>'+
+			'</tr>'+
+			'<tr>'+
+				'<td>warTask</td>'+
+				'<td>mainRoom,targetRoom,num,level</td>'+
+				'<td>二人小队任务发布</td>'+
+			'</tr>'+
+			'<tr>'+
+				'<td>mixwWarTask</td>'+
+				'<td>mainRoom,targetRoom,flagName,body,boolean</td>'+
+				'<td>一体机任务发布</td>'+
+			'</tr>'+
+			'<tr>'+
+				'<td>depositTask</td>'+
+				'<td>mainRoom,targetRoom,num</td>'+
+				'<td>采集deposit任务发布</td>'+
+			'</tr>'+
+			'<tr>'+
+				'<td>s2tTsou</td>'+
+				'<td>roomName1,fromS,toS,sour,num</td>'+
+				'<td>中央creep资源搬运任务发布</td>'+
+			'</tr>'+
+			'<tr>'+
+				'<td>terminalAddTask</td>'+
+				'<td>sourceRoom,sourceToRoom,source,num</td>'+
+				'<td>终端资源分享任务添加</td>'+
+			'</tr>'+
+			'</table>'
+	
+}
+
 
 module.exports = msg;
 

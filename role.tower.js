@@ -76,10 +76,22 @@ Memory.needEnergyTower = [
         roomName:'W36N9',
         towerList:[
             {
-                towerId:'604773a8434e3b067fba0255',
+                towerId:'6085b00c0bedbc3544187154',
                 towerStuta:true
             },{
                 towerId:'6050d35e07d2697a225f700f',
+                towerStuta:true
+            },{
+                towerId:'60650628015f30802847407b',
+                towerStuta:true
+            },{
+                towerId:'6085b1eff2a3dc5be17bf01b',
+                towerStuta:true
+            },{
+                towerId:'6085b3dae5815579ef036052',
+                towerStuta:true
+            },{
+                towerId:'608635acb6892c2807f4d64b',
                 towerStuta:true
             }
         ]
@@ -91,6 +103,9 @@ Memory.needEnergyTower = [
                 towerStuta:true
             },{
                 towerId:'605fe00b9a82e81bfcee014c',
+                towerStuta:true
+            },{
+                towerId:'60894b767c3beacda0ba2a18',
                 towerStuta:true
             }
         ]

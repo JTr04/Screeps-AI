@@ -1,3 +1,13 @@
+/*
+*注意：
+*独立自主是我国外交的基本立场；
+*维护我国的主权，安全和发展利益，促进世界的和平与发展是我国外交的基本目标；
+*加强同第三世界国家的团结与合作是我国对外政策的基本立足点；
+*支持对外开放，加强国际交往，是我国的基本国策；
+*坚决履行人不犯我我不犯人，人若犯我我必犯人，犯我国土虽远必诛 的政策
+*/
+
+
 /**
 *The sour team
 *flag attack
@@ -148,6 +158,19 @@ var body = {
 	}
 }
 
+var boostLabMsg = {
+    'sim':[
+        {
+            boostLabId:'53dd2ef607bf095762b707da',
+            boostLabMin:'UO'
+        },{
+            boostLabId:'6dcb4fbe1801023b727b87d7',
+            boostLabMin:'KO'
+        }   
+    ]
+
+}
+
 /*
  *生产相应的creep
  */
@@ -174,46 +197,89 @@ function bossAction(creep){
 	var flagWar = Game.flags.attack
 	if(flagWar){
 		//boost 稍后
-
-		//迁途
-		var XDCreepName = 'GXD'+'_'+creep.name.split('_')[1]+'_'+creep.name.split('_')[2]
-		var XDCreep = Game.creeps[XDCreepName]
-		if(creep.room.name != flagWar.pos.roomName){
-		    if(XDCreep){
-		        findRoad(creep,XDCreep,flagWar)
-			    creep.say('🛴')
-		    }else{
-		        creep.say("⛄");
-		    }
-			
-		}else{
-//		        delete Memory.creeps[creep.name].move 
-			//工作
-			if(XDCreep){
-			    roomFindRoad(creep,XDCreep)
+		if(creep.memory.boost){
+            var boostFlag = Game.flags['boost'+creep.room.name];
+            if(boostFlag){
+                if(!creep.pos.isEqualTo(boostFlag)){
+                   creep.moveTo(boostFlag)
+                }else{
+                    var boostLabList = boostLabMsg[creep.room.name]
+                    for(var l in boostLabList){
+                        var target = Game.getObjectById(boostLabList[l].boostLabId)
+                        if(target){
+                            target.boostCreep(creep)
+                        }
+                    }
+                    creep.memory.boost = false;
+                } 
+            }else{
+                creep.say('boostFlag?')
+            }
+            
+        }else{
+			//迁途
+			var XDCreepName = 'GXD'+'_'+creep.name.split('_')[1]+'_'+creep.name.split('_')[2]
+			var XDCreep = Game.creeps[XDCreepName]
+			if(creep.room.name != flagWar.pos.roomName){
+				if(XDCreep){
+					findRoad(creep,XDCreep,flagWar)
+					creep.say('??')
+				}else{
+					creep.say("?");
+				}
+				
 			}else{
-			    checkAction(creep)
+	//		        delete Memory.creeps[creep.name].move 
+				//工作
+				if(XDCreep){
+					roomFindRoad(creep,XDCreep)
+				}else{
+					checkAction(creep)
+				}
+				if(creep.getActiveBodyparts(HEAL) != 0)healAction(creep,XDCreep)
+				creep.say('o(╥﹏╥)o',true)
 			}
-			if(creep.getActiveBodyparts(HEAL) != 0)healAction(creep,XDCreep)
-			creep.say('o(╥﹏╥)o',true)
-		}
+        }
 		
 	}else{
 		if(Memory.creeps[creep.name].move)delete Memory.creeps[creep.name].move
-		creep.say('🏴‍☠️呢?')
+		creep.say('?????呢?')
 	}
 	
 }
 function XD1(creep){
 	var flagWar = Game.flags.attack
 	if(flagWar){
-    	var bossCreepName = 'Gboss'+'_'+creep.name.split('_')[1]+'_'+creep.name.split('_')[2]
-    	var bossCreep = Game.creeps[bossCreepName]
-    // 	if(bossCreep){
-    		//xd 逻辑
-    		checkAction(creep)
-			if(creep.getActiveBodyparts(HEAL) != 0)healAction(creep,bossCreep)
-    // 	}
+		//boost
+		if(creep.memory.boost){
+            var boostFlag = Game.flags['boost'+creep.room.name];
+            if(boostFlag){
+                if(!creep.pos.isEqualTo(boostFlag)){
+                   creep.moveTo(boostFlag)
+                }else{
+                    var boostLabList = boostLabMsg[creep.room.name]
+                    for(var l in boostLabList){
+                        var target = Game.getObjectById(boostLabList[l].boostLabId)
+                        if(target){
+                            target.boostCreep(creep)
+                        }
+                    }
+                    creep.memory.boost = false;
+                } 
+            }else{
+                creep.say('boostFlag?')
+            }
+            
+        }else{
+			var bossCreepName = 'Gboss'+'_'+creep.name.split('_')[1]+'_'+creep.name.split('_')[2]
+			var bossCreep = Game.creeps[bossCreepName]
+		// 	if(bossCreep){
+				//xd 逻辑
+				checkAction(creep)
+				if(creep.getActiveBodyparts(HEAL) != 0)healAction(creep,bossCreep)
+		// 	}
+		}
+    	
 	}
 }
 
@@ -271,34 +337,6 @@ function moveToTarget(creep,target){
 			let costs = new PathFinder.CostMatrix;
 			const terrain = new Room.Terrain(roomName);
 
-			room.find(FIND_STRUCTURES).forEach(function(struct) {
-				if (struct.structureType === STRUCTURE_ROAD) {
-					// 相对于平原，寻路时将更倾向于道路
-					costs.set(struct.pos.x, struct.pos.y, 1);
-				} else if (struct.structureType !== STRUCTURE_CONTAINER && 
-				 			struct.structureType !== STRUCTURE_WALL &&
-							struct.structureType !== STRUCTURE_SPAWN &&
-							struct.structureType !== STRUCTURE_CONTROLLER &&
-							struct.structureType !== STRUCTURE_LAB &&
-							struct.structureType !== STRUCTURE_FACTORY &&
-							struct.structureType !== STRUCTURE_LINK &&
-							struct.structureType !== STRUCTURE_EXTENSION &&
-							struct.structureType !== STRUCTURE_TOWER &&
-							struct.structureType !== STRUCTURE_STORAGE &&
-							struct.structureType !== STRUCTURE_TERMINAL &&
-							struct.structureType !== STRUCTURE_POWER_SPAWN &&
-							struct.structureType !== STRUCTURE_OBSERVER &&
-							struct.structureType !== STRUCTURE_NUKER &&
-					(struct.structureType !== STRUCTURE_RAMPART || !struct.my)) {
-					// 不能穿过无法行走的建筑
-					costs.set(struct.pos.x, struct.pos.y, 255);
-				}
-			});
-
-			// 躲避房间中的 creep
-			room.find(FIND_CREEPS).forEach(function(creep) {
-				costs.set(creep.pos.x, creep.pos.y, 255);
-			});
 
 			// 用默认地形成本填充 CostMatrix，以供将来分析：
 			for(let y = 0; y < 50; y++) {
@@ -309,6 +347,28 @@ function moveToTarget(creep,target){
 						tile === TERRAIN_MASK_SWAMP ?   5 : // 沼泽 => 移动成本:  5
 														1 ; // 平原 => 移动成本:  1
 					costs.set(x, y, weight);
+
+
+					room.find(FIND_STRUCTURES).forEach(function(struct) {
+						if (struct.structureType === STRUCTURE_ROAD) {
+							// 相对于平原，寻路时将更倾向于道路
+							costs.set(struct.pos.x, struct.pos.y, 1);
+						}else if(struct.structureType === STRUCTURE_WALL){
+							costs.set(struct.pos.x, struct.pos.y, 255);
+						} else if (	struct.structureType !== STRUCTURE_CONTAINER &&
+									 (struct.structureType !== STRUCTURE_RAMPART ||
+									  !struct.my)) {
+							// 不能穿过无法行走的建筑
+				 			costs.set(struct.pos.x, struct.pos.y, 255);
+							
+						}
+					});
+			
+				
+					// 躲避房间中的 creep
+					room.find(FIND_CREEPS).forEach(function(creep) {
+						costs.set(creep.pos.x, creep.pos.y, 255);
+					});
 				}
 			}
 			
@@ -343,23 +403,30 @@ function show(){
 }
 function checkAction(creep){
     var flagWar = Game.flags.attack
-    const found = creep.room.lookForAt(LOOK_STRUCTURES, flagWar);
+    const found = creep.room.lookForAt(LOOK_STRUCTURES, flagWar)[0];
     if(!flagWar){
-        found = creep.room.find(FIND_HOSTILE_STRUCTURES)
+        found = creep.pos.findClosestByPath(FIND_HOSTILE_STRUCTURES)
     }
 	var target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
 	if(!target){
 	    target = found
 	}
-	if(creep.getActiveBodyparts(WORK) != 0 && found.length){
+	if(creep.getActiveBodyparts(WORK) != 0 && found){
 	    dismantleAction(creep,found)
 	}else{
 	    if(creep.name.split('_')[0] == 'Gboss'){
 	        creep.moveTo(flagWar)
 	    }
 	}
-	    
-	if(target.length && creep.getActiveBodyparts(ATTACK) != 0 || creep.getActiveBodyparts(RANGED_ATTACK) != 0){
+	if(creep.name.split('_')[0] == 'GXD'){
+
+		if(target && creep.getActiveBodyparts(RANGED_ATTACK) != 0){
+			gxdAttackAction(creep,target)
+		}else{
+			creep.say('loading...',true);
+		}
+	}
+	if(target && creep.getActiveBodyparts(ATTACK) != 0 || creep.getActiveBodyparts(RANGED_ATTACK) != 0){
 	    attackAction(creep,target)
 	}else{
 	    creep.say('loading...',true);
@@ -368,25 +435,41 @@ function checkAction(creep){
 
 
 function dismantleAction(creep,found){
-	if(found[0] && creep.dismantle(found[0]) == ERR_NOT_IN_RANGE){
-		creep.moveTo(found[0])	
+	if(found && creep.dismantle(found) == ERR_NOT_IN_RANGE){
+		creep.moveTo(found)	
 	}
 }
 function attackAction(creep,target){
-	if(target[0]){
-		if(!creep.pos.isNearTo(target[0])){
-			creep.moveTo(target[0]);
+	if(target){
+		if(!creep.pos.isNearTo(target)){
+			creep.moveTo(target);
 		}else{
-			creep.attack(target[0])
+			creep.attack(target)
 		}
-		if(creep.pos.inRangeTo(target[0], 3)) {
-			creep.rangedAttack(target[0]);
+		if(creep.pos.inRangeTo(target, 3)) {
+			creep.rangedAttack(target);
 		}
 	}else{
 	    creep.say('loading...',true)
 	}
 }
 
+function gxdAttackAction(creep,target){
+	var found = creep.room.lookForAtArea(LOOK_CREEPS,(creep.pos.y - 3),(creep.pos.x - 3),(creep.pos.y + 3),(creep.pos.x + 3),true)
+	if(found.length > 0){
+	    for(var f in found){
+	        if(!found[f].creep.my){
+	            target = Game.getObjectById(found[f].creep.id)
+	        }
+	    }
+	}
+
+	if(target){
+		if(creep.pos.inRangeTo(target,3)){
+			creep.rangedAttack(target)
+		}
+	}
+}
 function healAction(creep,target){
 	var obj = creep
 	if(target && target.hits < target.hitsMax){
@@ -400,16 +483,6 @@ function healAction(creep,target){
 	
 }
 
-function creepBoost(creep){
-	var roomName = creep.memory.roomSign
-	var flagName = roomName+'boost'
-	if(!creep.pos.isEqualTo(Game.flags[flagName])){
-		creep.moveTo(Game.flags[flagName])
-	}else{
-		//boost
-
-	}
-}
 
 global.warTask = function(mainRoom,targetRoom,num,level){
 	if(!Memory.warTask)Memory.warTask = []
